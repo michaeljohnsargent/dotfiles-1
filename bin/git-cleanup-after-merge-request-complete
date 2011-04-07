@@ -1,0 +1,71 @@
+#! /usr/bin/env bash
+
+case $1 in
+  "" | "--help" | "-h")
+    echo Usage:
+    echo "  git cleanup-after-merge-request-complete BRANCH"
+    echo "  git cleanup-after-merge-request-complete --help"
+    echo "  git cleanup-after-merge-request-complete -h"
+    exit
+    ;;
+esac
+
+BRANCH=$1
+
+announce() {
+  echo -n "*** $1 ... "
+}
+
+perform() {
+  command=$1
+  output=`$command 2>&1`
+  result=$?
+  if [[ $result -eq 0 ]]; then
+    echo -e "\033[32mOK\033[0m"
+  else
+    echo -e "\033[31mERROR!\033[0m"
+    echo -e "$output" >&2
+    exit $result
+  fi
+}
+
+echo ""
+
+if [[ $BRANCH = "master" ]]; then
+  echo -e "\033[31mERROR!\033[0m"
+  echo -e "\033[31mCannot cleanup master branch, exiting\033[0m"
+  exit 1
+fi
+
+announce "Cleaning up after merge request of $BRANCH"
+echo ""
+
+announce "Ensuring working tree is clean"
+perform  "git diff --exit-code"
+
+announce "Checking out master"
+perform  "git checkout master"
+
+announce "Fetching/pruning origin"
+perform  "git fetch origin --prune"
+
+#announce "Ensuring master can be fast-forwarded to origin/master"
+## Bash understands the <(COMMAND) syntax, whereas sh does not.
+#diff <(git merge-base origin/master master) \
+     #<(git rev-parse master)      \
+     #>/dev/null                                     \
+     #2>&1
+#if [[ $? -eq 0 ]]; then
+  #echo -e "\033[32mYES\033[0m"
+#else
+  #echo -e "\033[31mNO\033[0m"
+  #exit 1
+#fi
+
+announce "Rebasing master onto origin/master"
+perform  "git rebase origin/master master"
+
+announce "Removing local branch $BRANCH"
+perform  "git branch -d $BRANCH"
+
+exit 0

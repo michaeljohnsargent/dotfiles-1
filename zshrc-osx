@@ -1,0 +1,70 @@
+# Path to your oh-my-zsh configuration.
+export ZSH=$HOME/.oh-my-zsh
+
+# Set to the name theme to load.
+# Look in ~/.oh-my-zsh/themes/
+export ZSH_THEME="midas"
+#export ZSH_THEME="fino-time"
+
+# Set to this to use case-sensitive completion
+# export CASE_SENSITIVE="true"
+
+# Comment this out to disable weekly auto-update checks
+export DISABLE_AUTO_UPDATE="true"
+
+# Uncomment following line if you want to disable colors in ls
+# export DISABLE_LS_COLORS="true"
+
+plugins=(vi-mode cap gem git github osx rails ruby history-substring-search)
+
+source $ZSH/oh-my-zsh.sh
+
+# vi-mode and history-substring-search
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+export KEYTIMEOUT=1
+#VI_MODE_EDIT_CHAR="✖"
+#VI_MODE_TYPE_CHAR="✚"
+#VI_MODE_EDIT_CHAR="✁"
+VI_MODE_EDIT_CHAR="✄"
+VI_MODE_TYPE_CHAR="✎"
+export VI_MODE_EDIT_INDICATOR="%{$fg_bold[red]%}$VI_MODE_EDIT_CHAR%{$reset_color%}"
+export VI_MODE_TYPE_INDICATOR="%{$fg_bold[green]%}$VI_MODE_TYPE_CHAR%{$reset_color%}"
+####
+
+export BUNDLER_EDITOR=vim
+export EDITOR=vim
+
+# Customize to your needs...
+export PERL5LIB=$PERL5LIB:/usr/local/Cellar/git/1.8.1.5/lib;
+export LUA_HOME=/usr/local/Cellar/lua/5.1.5
+export LUA_DIST_HOME=$LUA_HOME/LuaDist
+LUA_PATH="./?.lua;$LUA_DIST_HOME/lib/lua/?.lua;$LUA_DIST_HOME/lib/lua/?/?.lua;$LUA_DIST_HOME/share/lua/?.lua;$LUA_DIST_HOME/share/lua/?/?.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?/init.lua;/usr/local/lib/lua/5.1/?.lua;/usr/local/lib/lua/5.1/?/init.lua"
+LUA_CPATH="./?.so;$LUA_DIST_HOME/lib/lua/?.so;$LUA_DIST_HOME/lib/lua/?/?.so;$LUA_DIST_HOME/share/lua/?.so;$LUA_DIST_HOME/share/lua/?/?.so;/usr/local/share/lua/5.1/?.so;/usr/local/share/lua/5.1/?/init.so;/usr/local/lib/lua/5.1/?.so;/usr/local/lib/lua/5.1/?/init.so"
+#LUA_PATH=./?.lua;
+export  LUA_PATH
+export  LUAC_PATH
+export JAVA_HOME=$(/usr/libexec/java_home)
+export PATH=/Users/`whoami`/bin:/usr/local/bin:/usr/local:/opt/local/bin:/opt/local/sbin:/usr/local:/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/opt/local/bin:/usr/local/sbin:/Users/cjharrelson/.git-scripts:${JAVA_HOME}/bin:$PATH;
+
+# Fix for rvm issues with .zsh
+unsetopt auto_name_dirs
+
+[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+
+__rvm_project_rvmrc
+
+export DEFER_GC="0.0"
+setopt HIST_IGNORE_SPACE
+
+# Make ruby faster but use more memory
+#export RUBY_HEAP_MIN_SLOTS=1000000 # ruby 1.x
+export RUBY_GC_HEAP_INIT_SLOTS=1000000 # ruby 2.x
+export RUBY_HEAP_SLOTS_INCREMENT=1000000
+export RUBY_HEAP_SLOTS_GROWTH_FACTOR=2
+export RUBY_GC_MALLOC_LIMIT=1000000000
+export RUBY_HEAP_FREE_MIN=500000
+
+alias zeus='nocorrect zeus'

@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+require 'digest'
+
+FILE_PATH = ARGV.shift
+ALGORITHM = ARGV.shift || 'sha256'
+
+if ALGORITHM.nil? || FILE_PATH.nil?
+  raise "Please provide the digest algortihm and file path as arguments"
+  exit 1
+end
+
+ALGORITHM_CONST = ALGORITHM.upcase
+
+algorithms = %w(
+  MD5
+  SHA1
+  SHA256
+  SHA384
+  SHA512
+)
+
+unless algorithms.include?( ALGORITHM_CONST )
+  raise "#{ALGORITHM_CONST} is not a recognized algorithm" 
+end
+
+puts ALGORITHM_CONST + ':', Digest.const_get( ALGORITHM_CONST ).file( FILE_PATH ).hexdigest

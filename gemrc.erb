@@ -1,0 +1,14 @@
+--- 
+:benchmark: false
+:verbose: true
+:update_sources: true
+gemcutter_key: <%= require 'yaml'; YAML::load( File.open( "#{File.expand_path( '~' )}/.api-tokens.yml" ) )['gemcutter'] %>
+:sources: 
+- http://gemcutter.org
+- http://gems.rubyforge.org/
+- http://gems.github.com
+:backtrace: false
+:bulk_threshold: 1000
+gem: --no-ri --no-rdoc
+rdoc: --inline-source --line-numbers
+

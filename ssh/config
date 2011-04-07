@@ -1,0 +1,295 @@
+ ServerAliveInterval 60
+ ServerAliveCountMax 3
+ IdentityFile ~/.ssh/id_rsa
+ #IdentityFile ~/.ssh/id_dsa
+
+# acception production (acception.law.iberon.com)
+
+ Host acception-prod
+  Hostname     10.0.7.116
+  User         cjharrelson
+
+ Host acception-prod-d
+  Hostname     10.0.7.116
+  User         deployer
+
+# acception staging
+
+ Host acception-stage
+  Hostname     10.0.11.50
+  User         cjharrelson
+  Port         8029
+
+ Host acception-stage-d
+  Hostname     10.0.11.50
+  User         deployer
+  Port         8029
+
+# ncite vetting staging (vetting.aie3.local) (10.1.0.60)
+
+ Host ncite-vetting-stage
+  Hostname     10.0.11.97
+  User         cjharrelson
+
+ Host ncite-vetting-stage-d
+  Hostname     10.0.11.97
+  User         deployer
+
+# ncite pass control staging (vrh-staging-spc)
+
+ Host npc-spc
+  Hostname     10.0.11.50
+  User         cjharrelson
+  Port         8022
+
+ Host npc-spc-d
+  Hostname     10.0.11.50
+  User         deployer
+  Port         8022
+
+# ncite pass control acp1 staging (vrh-staging-acp1)
+
+ Host npc-acp1
+  Hostname     10.0.11.50
+  User         cjharrelson
+  Port         8023
+
+ Host npc-acp1-d
+  Hostname     10.0.11.50
+  User         deployer
+  Port         8023
+
+# ncite pass control acp2 staging (vrh-staging-acp2)
+
+ Host npc-acp2
+  Hostname     10.0.11.50
+  User         cjharrelson
+  Port         8027
+
+ Host npc-acp2-d
+  Hostname     10.0.11.50
+  User         deployer
+  Port         8027
+
+# ncite pass control staging (vrh-staging-ews) (pre-registration)
+
+ Host npc-ews
+  Hostname     10.0.11.50
+  User         cjharrelson
+  Port         8025
+
+ Host npc-ews-d
+  Hostname     10.0.11.50
+  User         deployer
+  Port         8025
+
+# ncite pass control staging (vrh-staging-ecp) (enterprise server)
+
+ Host npc-ecp
+  Hostname     10.0.11.50
+  User         cjharrelson
+  Port         8024
+
+ Host npc-ecp-d
+  Hostname     10.0.11.50
+  User         deployer
+  Port         8024
+
+# ncite pass control production (vrh-spc)
+
+ Host npc-spc-prod
+  Hostname     10.0.11.50
+  User         xadministrator
+  Port         8124
+
+ #Host npc-spc-prod-d
+  #Hostname     10.0.11.50
+  #User         deployer
+  #Port         8124
+
+# ncite pass control acp1 production (vrh-acp1)
+
+ Host npc-acp1-prod
+  Hostname     10.0.11.50
+  User         iberon
+  Port         8122
+
+ #Host npc-acp1-d
+  #Hostname     10.0.11.50
+  #User         deployer
+  #Port         8123
+
+# ncite pass control production (vrh-ews) (pre-registration)
+
+ Host npc-ews-prod
+  Hostname     10.0.11.50
+  User         root
+  Port         8126
+
+ #Host npc-ews-d
+  #Hostname     10.0.11.50
+  #User         deployer
+  #Port         8126
+
+# ncite pass control production (vrh-ecp) (enterprise server)
+
+ Host npc-ecp-prod
+  Hostname     10.0.11.50
+  User         root
+  Port         8125
+
+ #Host npc-ecp-prod-d
+  #Hostname     10.0.11.50
+  #User         deployer
+  #Port         8125
+
+# ncite pass control production BAE (vrh-spc)
+
+ Host npc-spc-bae-prod
+  Hostname     10.1.0.21
+  User         xadministrator
+
+# ncite pass control acp1 production BAE (vrh-acp1)
+
+ Host npc-acp1-bae-prod
+  Hostname     10.1.1.4
+  User         xadministrator
+
+# ncite pass control production BAE (vrh-ews) (pre-registration)
+
+ Host npc-ews-bae-prod
+  #Hostname     10.1.0.6
+  Hostname     158.13.154.22
+  User         xadministrator
+
+# ncite pass control production BAE (vrh-epc) (enterprise server)
+
+ Host npc-ecp-bae-prod
+  #Hostname     10.1.0.5
+  Hostname     158.13.154.20
+  User         xadministrator
+
+# ncite production (ncite.law.iberon.com - 10.0.7.105)
+
+ Host ncite-prod
+  Hostname     ncite.law.iberon.com
+  User         cjharrelson
+
+ Host ncite-prod-d
+  Hostname     ncite.law.iberon.com
+  User         deployer
+
+# ncite staging (ncite.staging.iberon.com - 10.0.5.102)
+
+ Host ncite-stage
+  Hostname     ncite.staging.iberon.com
+  User         cjharrelson
+
+ Host ncite-stage-d
+  Hostname     ncite.staging.iberon.com
+  User         deployer
+
+# gvt-us production (gvtus.law.iberon.com - 10.0.7.104)
+
+ Host gvt-prod
+  Hostname     gvtus.law.iberon.com
+  User         cjharrelson
+
+ Host gvt-prod-d
+  Hostname     gvtus.law.iberon.com
+  User         deployer
+
+# gvt-us staging (gvtus.staging.iberon.com - 10.0.5.104)
+
+ Host gvt-stage
+  Hostname     gvtus.staging.iberon.com
+  User         cjharrelson
+
+ Host gvt-stage-d
+  Hostname     gvtus.staging.iberon.com
+  User         deployer
+
+# medic-ce production
+
+ Host mce-prod
+  Hostname     medic-ce.prod.iberon.com
+  User         cjharrelson
+
+ Host mce-prod-d
+  Hostname     medic-ce.prod.iberon.com
+  User         deployer
+
+# medic-ce ib staging
+
+ Host mce-stage
+  Hostname     medic-ce.staging.iberon.com
+  User         cjharrelson
+
+ Host mce-stage-d
+  Hostname     medic-ce.staging.iberon.com
+  User         deployer
+
+# tmux
+ Host nils
+  Hostname     10.0.12.109
+  User         cjharrelson
+
+ Host jeff-personal
+  Hostname     10.0.12.106
+  User         cjharrelson
+
+ Host bwood
+  Hostname     10.0.12.100
+  User         tmux
+
+# fluidigital
+ Host fd
+  Hostname     fluiddigitalmedia.com
+  User         fluiddig
+
+# fluidigital staging
+ Host fd-stage
+  Hostname     acceptance.fluiddigitalmedia.com
+  User         fluidacc
+
+# hei
+ Host hei
+  Hostname     homeentertainmentinc.com
+  User         homeent
+
+# hei staging
+ Host hei-stage
+  Hostname     acceptance.homeentertainmentinc.com
+  User         heiacc
+
+# jasonharrelson
+ Host jh
+  Hostname     jasonharrelson.com
+  User         jasonhar
+
+# steelpointe
+ Host steelpointe
+  Hostname     jasonharrelson.com
+  User         steel
+
+# archivalock production
+ Host archiv-prod
+  Hostname     ec2-184-73-165-246.compute-1.amazonaws.com
+  User         deploy
+
+# VMs
+ Host vm-centos-scratch
+  Hostname     192.168.251.131
+  User         cjharrelson
+
+ Host vm-centos-db
+  Hostname     192.168.251.132
+  User         cjharrelson
+
+ Host vm-centos-app
+  Hostname     192.168.251.133
+  User         cjharrelson
+
+ Host vm-centos-template
+  Hostname     192.168.251.134
+  User         cjharrelson

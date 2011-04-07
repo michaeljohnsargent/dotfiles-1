@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+
+def migrations_path
+  File.join Dir.pwd,
+            'db',
+            'migrate'
+end
+
+def migrate_cmd
+  "rake db:migrate VERSION="
+end
+
+def versions_back
+  ARGV.nil? || ARGV.empty? ? 1 : ARGV.first.to_i
+end
+
+puts "Back #{versions_back} version"
+
+migrations = nil
+Dir.chdir( migrations_path ) { migrations = Dir.glob( '*.rb' ) }
+
+target  = migrations[-(1 + versions_back)]
+version = target.split( '_' ).first
+
+to_clipboard = "#{migrate_cmd}#{version}"
+cmd = "/bin/bash -c 'echo -n \"#{to_clipboard}\" | pbcopy'"
+# puts cmd
+`#{cmd}`
+
+puts "'#{to_clipboard}' has been placed into your clipboard"
