@@ -20,7 +20,7 @@ plugins=(cap gem git github osx rails ruby textmate)
 
 source $ZSH/oh-my-zsh.sh
 
-export BUNDLER_EDITOR=mate
+export BUNDLER_EDITOR=mvim
 
 # Customize to your needs...
 export PATH=/Users/`whoami`/bin:/usr/local:/opt/local/bin:/opt/local/sbin:/usr/local/git/bin:/usr/local:/opt/local/bin:/opt/local/sbin:/usr/local/git/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin:/usr/local/git/bin:/usr/local/bin:/usr/local/sbin:/usr/local/mysql/bin:$PATH;
