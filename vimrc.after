@@ -3,10 +3,23 @@ color candycode
 :set guifont=Monaco:h12
 :set guioptions-=T
 
+"set autochdir " always switch to the current file directory
+set clipboard+=unnamed " share windows clipboard
+"set cursorcolumn " highlight the current column
+
+"Mappings {
+inoremap jj <esc>
+map 0 ^
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+" }
+
 "NERDTree options {
 let NERDTreeWinPos  = 'right'
 let NERDTreeWinSize = 40
-"let NERDTreeIgnore          =   ['\.pyc$','\.swp$']
+"let NERDTreeIgnore  =   ['\.pyc$','\.swp$', '\.log$']
 "}
 
 "Strip trailing whitespace {
@@ -24,6 +37,7 @@ autocmd BufWritePre *.haml :call <SID>StripTrailingWhitespaces()
 autocmd BufWritePre *.rabl :call <SID>StripTrailingWhitespaces()
 autocmd BufWritePre *.js :call <SID>StripTrailingWhitespaces()
 autocmd BufWritePre *.css :call <SID>StripTrailingWhitespaces()
+autocmd BufWritePre *.rake :call <SID>StripTrailingWhitespaces()
 autocmd BufWritePre Gemfile :call <SID>StripTrailingWhitespaces()
 autocmd BufWritePre Guardfile :call <SID>StripTrailingWhitespaces()
 autocmd BufWritePre Guardfile.example :call <SID>StripTrailingWhitespaces()
