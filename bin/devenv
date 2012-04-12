@@ -1,0 +1,58 @@
+#!/bin/zsh
+
+project=$1
+session="dev-$1"
+
+if [ $project = 'gvt-us' ]
+then
+  project_dir="~/development/iberon/gvt-us"
+elif [ $project = 'archivalock' ]
+then
+  project_dir="~/development/personal/archivalock"
+fi
+
+tmux has-session -t $session
+
+if [ $? != 0 ]
+then
+  # Main window with first editor (1.1)
+  tmux new-session -s $session -n editor -d
+  tmux send-keys -t $session:1.1 "cd $project_dir" C-m
+  tmux send-keys -t $session:1.1 'vim .' C-m
+
+  # Fist vertical split with guard running specs (1.2)
+  tmux split-window -h -t $session -p 40
+  tmux send-keys -t $session:1.2 "cd $project_dir" C-m
+  tmux send-keys -t $session:1.2 'guard -c -g dev' C-m
+
+  # Second editor pane (1.3)
+  #tmux split-window -v -t $session:1.1 -p 50
+  #tmux send-keys -t $session:1.3 "cd $project_dir" C-m
+
+  # (1.3)
+  tmux split-window -v -t $session:1.2 -p 55
+  tmux send-keys -t $session:1.3 "cd $project_dir" C-m
+  tmux send-keys -t $session:1.3 'bundle exec rails c' C-m
+
+  # (1.5)
+  tmux split-window -v -t $session:1.3 -p 50
+  tmux send-keys -t $session:1.4 "cd $project_dir" C-m
+  tmux send-keys -t $session:1.4 'git status' C-m
+
+  # Create new window with server in it (3)
+  tmux new-window -n server -t $session
+  tmux send-keys -t $session:2 "cd $project_dir" C-m
+  tmux send-keys -t $session:2 'bundle exec rails s' C-m
+
+  # Create new window with server in it (3)
+  tmux new-window -n terminal -t $session
+  tmux send-keys -t $session:3 "cd $project_dir" C-m
+
+  tmux select-window -t $session:1
+  tmux select-pane -t 1
+
+  # Delay second editor to end to avoid recovery file issues
+  #tmux send-keys -t $session:1.3 'wait 2500 & vim .' C-m
+fi
+
+tmux attach -t $session
