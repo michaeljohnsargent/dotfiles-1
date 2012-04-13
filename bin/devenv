@@ -1,15 +1,21 @@
 #!/bin/zsh
 
 project=$1
-session="dev-$1"
 
-if [ $project = 'gvt-us' ]
+if [ $project = '.' ]
+then
+  project_dir=`pwd`
+elif [ $project = 'gvt-us' ]
 then
   project_dir="~/development/iberon/gvt-us"
 elif [ $project = 'archivalock' ]
 then
   project_dir="~/development/personal/archivalock"
 fi
+
+project=`basename $project_dir`
+
+session="dev-$project"
 
 tmux has-session -t $session
 
