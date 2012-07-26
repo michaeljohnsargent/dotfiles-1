@@ -9,6 +9,8 @@ colorscheme nick-railscasts
 :set guifont=Monaco:h12
 :set guioptions-=T
 
+:set nowrap
+
 "set autochdir " always switch to the current file directory
 set clipboard+=unnamed " share system clipboard
 
@@ -16,6 +18,7 @@ set cursorline " highlight the current line
 "set cursorcolumn " highlight the current column
 :nnoremap <Leader>c :set cursorline!<CR>
 ":nnoremap <Leader>c :set cursorline! cursorcolumn!
+:nnoremap <Leader>3 :set number!<CR>
 
 "Mappings {
 inoremap jj <esc>
@@ -32,6 +35,8 @@ let NERDTreeWinPos  = 'right'
 let NERDTreeWinSize = 40
 "let NERDTreeIgnore  =   ['\.pyc$','\.swp$', '\.log$']
 "}
+autocmd VimEnter * NERDTreeClose
+"autocmd VimEnter * wincmd p
 
 "Strip trailing whitespace {
 fun! <SID>StripTrailingWhitespaces()
@@ -62,3 +67,32 @@ let g:ruby_doc_rspec_mapping='RS'
 let g:jquery_doc_command='open'
 let g:jquery_doc_mapping='JJ'
 " }
+
+function! DoPrettyXML()
+    " save the filetype so we can restore it later
+    let l:origft = &ft
+    set ft=
+    " delete the xml header if it exists. This will
+    " permit us to surround the document with fake tags
+    " without creating invalid xml.
+    1s/<?xml .*?>//e
+    " insert fake tags around the entire document.
+    " This will permit us to pretty-format excerpts of
+    " XML that may contain multiple top-level elements.
+    0put ='<PrettyXML>'
+      $put ='</PrettyXML>'
+      silent %!xmllint --format -
+    " xmllint will insert an <?xml?> header. it's easy enough to delete
+    " if you don't want it.
+    " delete the fake tags
+    2d
+    $d
+    " restore the 'normal' indentation, which is one extra level
+    " too deep due to the extra tags we wrapped around the document.
+    silent %<
+    " back to home
+    1
+    " restore the filetype
+    exe "set ft=" . l:origft
+endfunction
+command! PrettyXml call DoPrettyXML()

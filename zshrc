@@ -20,7 +20,7 @@ plugins=(cap gem git github osx rails ruby textmate)
 
 source $ZSH/oh-my-zsh.sh
 
-export BUNDLER_EDITOR=mvim
+export BUNDLER_EDITOR=vim
 export EDITOR=vim
 
 # Customize to your needs...
@@ -32,3 +32,5 @@ unsetopt auto_name_dirs
 [[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
 
 [[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
