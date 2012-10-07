@@ -8,7 +8,9 @@ def me(username=nil)
 	end
 end
 
-alias r reload!
+if respond_to?( :reload! )
+  alias r reload!
+end
 
 # Kinda evil, kinda awesome
 #def method_missing(method, *args, &block)
