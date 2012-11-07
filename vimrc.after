@@ -1,3 +1,5 @@
+set nocompatible
+set laststatus=2
 "let g:solarized_termcolors=256
 "set t_Co=16
 "set background=dark
@@ -20,6 +22,11 @@ set cursorline " highlight the current line
 ":nnoremap <Leader>c :set cursorline! cursorcolumn!
 :nnoremap <Leader>3 :set number!<CR>
 
+filetype on
+filetype plugin on
+filetype indent on
+syntax on
+
 "Mappings {
 inoremap jj <esc>
 map 0 ^
@@ -28,6 +35,7 @@ map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
+map <Space> i
 " }
 
 "NERDTree options {
@@ -67,6 +75,10 @@ let g:ruby_doc_rspec_mapping='RS'
 let g:jquery_doc_command='open'
 let g:jquery_doc_mapping='JJ'
 " }
+
+" Vim Powerline status bar
+set encoding=utf-8
+let g:Powerline_symbols = 'fancy'
 
 function! DoPrettyXML()
     " save the filetype so we can restore it later
