@@ -13,8 +13,7 @@ colorscheme nick-railscasts
 
 :set nowrap
 
-"set autochdir " always switch to the current file directory
-set clipboard+=unnamed " share system clipboard
+"set clipboard+=unnamed " share system clipboard
 
 set cursorline " highlight the current line
 "set cursorcolumn " highlight the current column
