@@ -1,86 +1,96 @@
-#! /usr/bin/env sh
+#!/usr/bin/env ruby
 
-me=`basename $0`
-case $@ in
-  "--help"|"-h" )
-    echo Usage:
-    echo "  $me"
-    exit
-    ;;
-  "" )
-    ;;
-  * )
-    echo Arguments '"'$@'"' not recognized
-    echo Try:
-    echo "  $me --help"
-    exit
-    ;;
-esac
+def guard_detected? 
+  guard_detected ||= (`bundle show >/dev/null 2>&1; echo $?`.strip == '0')
+end
 
-echo Setting up tmux IDE for Ruby
+def rails_detected?
+  rails_detected ||= (Dir.exists?( 'app' ) && Dir.exists?( 'config' ) && Dir.exists?( 'db' ))
+end
 
-bundler=''
-bundle check >/dev/null 2>&1
-case $? in
-  # Exit code 0: bundle is defined and installed
-  # Exit code 1: bundle is defined but not installed
-  0|1 )
-    echo "* Detected Bundler configuration"
-    bundler=true
-    ;;
-esac
+def bundler_detected?
+  bundler_detected ||= %w(0 1).include?( `bundle check >/dev/null 2>&1; echo $?`.strip )
+end
 
-command_prefix=""
-if [ $bundler ]; then
-  command_prefix="bundle exec"
-fi
+def command_prefix 
+  bundler_detected? ? 
+    'bundle exec' : 
+    ''
+end
 
-code_test_window_name='code/test'
-web_server_window_name='web-server'
-repl_window_name='REPL'
+def rails_cmd
+  File.exists?( 'script/console' ) ?
+    'script/' :
+    'rails '
+end
 
-session_name=`basename $(pwd)`
-tmux_cmd="tmux -S /var/tmux/$session_name"
+def session_name
+  File.basename Dir.pwd
+end
 
-$tmux_cmd new-session -s $session_name -d
+def tmux_cmd
+  "tmux -S /var/tmux/#{session_name}"
+end
 
-vim_pane_id=`$tmux_cmd list-panes -F "#{pane_active} #{pane_id}" | sed -n -e '/^1 /s/^1 %\([0-9]*\)$/\1/gp'`
+def get_current_pane_id_cmd 
+  "#{tmux_cmd} list-panes -F \"\#{pane_active} \#{pane_id}\" | sed -n -e '/^1 /s/^1 %\\([0-9]*\\)$/\\1/gp'"
+end
 
-$tmux_cmd rename-window -t "%$vim_pane_id" $code_test_window_name
+def code_test_window_name
+  'code/test'
+end
 
-$tmux_cmd send-keys -t "%$vim_pane_id" 'vim .' C-m
+def web_server_window_name
+  'web-server'
+end
 
-$tmux_cmd split-window -h -p 40 -t "%$vim_pane_id"
-tests_pane_id=`$tmux_cmd list-panes -F "#{pane_active} #{pane_id}" | sed -n -e '/^1 /s/^1 %\([0-9]*\)$/\1/gp'`
+def repl_window_name
+  'REPL'
+end
 
-guard show >/dev/null 2>&1
+puts 'Setting up tmux IDE for Ruby'
 
-if [ $? = 0 ]; then
-  echo "* Detected Guard configuration"
-  $tmux_cmd send-keys -t "%$tests_pane_id" "$command_prefix guard --clear" C-m
-  $tmux_cmd split-window -v -p 40 -t "%$tests_pane_id"
-fi
+if bundler_detected?
+  puts "* Detected Bundler configuration"
+end
 
-if [ -d app ] && [ -d config ] && [ -d db ]; then
-  echo "* Detected Rails project"
-  $tmux_cmd new-window -t $session_name -n $web_server_window_name
-  web_server_pane_id=`$tmux_cmd list-panes -F "#{pane_active} #{pane_id}" | sed -n -e '/^1 /s/^1 %\([0-9]*\)$/\1/gp'`
-  $tmux_cmd send-keys -t "%$web_server_pane_id" "$command_prefix `if [ -f script/server ]; then echo 'script/'; else echo 'rails '; fi`server" C-m
+`#{tmux_cmd} new-session -s #{session_name} -d`
 
-  $tmux_cmd new-window -t $session_name -n $repl_window_name
-  repl_pane_id=`$tmux_cmd list-panes -F "#{pane_active} #{pane_id}" | sed -n -e '/^1 /s/^1 %\([0-9]*\)$/\1/gp'`
-  $tmux_cmd send-keys -t "%$repl_pane_id" "$command_prefix `if [ -f script/console ]; then echo 'script/'; else echo 'rails '; fi`console" C-m
+vim_pane_id = `#{get_current_pane_id_cmd}`.strip
+
+`#{tmux_cmd} rename-window -t "%#{vim_pane_id}" #{code_test_window_name}`
+
+`#{tmux_cmd} send-keys -t "%#{vim_pane_id}" 'vim .' C-m`
+
+`#{tmux_cmd} split-window -h -p 40 -t "%#{vim_pane_id}"`
+tests_pane_id = `#{get_current_pane_id_cmd}`.strip
+
+if guard_detected?
+  puts "* Detected Guard configuration"
+  `#{tmux_cmd} send-keys -t "%#{tests_pane_id}" "#{command_prefix} guard --clear" C-m`
+  `#{tmux_cmd} split-window -v -p 40 -t "%#{tests_pane_id}"`
+end
+
+if rails_detected?
+  puts "* Detected Rails project"
+  `#{tmux_cmd} new-window -t #{session_name} -n #{web_server_window_name}`
+  web_server_pane_id = `#{get_current_pane_id_cmd}`.strip
+  `#{tmux_cmd} send-keys -t "%#{web_server_pane_id}" "#{command_prefix} #{rails_cmd}server" C-m`
+
+  `#{tmux_cmd} new-window -t #{session_name} -n #{repl_window_name}`
+  repl_pane_id = `#{get_current_pane_id_cmd}`.strip
+  `#{tmux_cmd} send-keys -t "%#{repl_pane_id}" "#{command_prefix} #{rails_cmd}console" C-m`
 else
-  $tmux_cmd new-window -t $session_name -n $repl_window_name
-  repl_pane_id=`$tmux_cmd list-panes -F "#{pane_active} #{pane_id}" | sed -n -e '/^1 /s/^1 %\([0-9]*\)$/\1/gp'`
-  if [ $bundler ]; then
-    $tmux_cmd send-keys -t "%$repl_pane_id" "bundle console" C-m
+  `#{tmux_cmd} new-window -t #{session_name} -n #{repl_window_name}`
+  repl_pane_id = `#{get_current_pane_id_cmd}`.strip
+  if bundler_detected?
+    `#{tmux_cmd} send-keys -t "%#{repl_pane_id}" "bundle console" C-m`
   else
-    $tmux_cmd send-keys -t "%$repl_pane_id" "irb" C-m
-  fi
-fi
+    `#{tmux_cmd} send-keys -t "%#{repl_pane_id}" "irb" C-m`
+  end
+end
 
-$tmux_cmd select-window -t $code_test_window_name
-$tmux_cmd select-pane -t "%$vim_pane_id"
+`#{tmux_cmd} select-window -t #{code_test_window_name}`
+`#{tmux_cmd} select-pane -t "%#{vim_pane_id}"`
 
-$tmux_cmd attach-session -t $session_name
+`#{tmux_cmd} attach-session -t #{session_name}`
