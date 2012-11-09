@@ -13,7 +13,7 @@ def guard_detected?
 end
 
 def rails_detected?
-  rails_detected ||= (Dir.exists?( 'app' ) && Dir.exists?( 'config' ) && Dir.exists?( 'db' ))
+  rails_detected ||= (File.exists?( 'app' ) && File.exists?( 'config' ) && File.exists?( 'db' ))
 end
 
 def bundler_detected?
