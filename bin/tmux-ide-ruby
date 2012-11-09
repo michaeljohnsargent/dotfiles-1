@@ -1,5 +1,13 @@
 #!/usr/bin/env ruby
 
+require 'optparse'
+
+OptionParser.new do |o|
+  o.on('-g GUARD GROUPS') { |groups| $guard_groups = groups.split( ',' ) }
+  o.on('-h') { puts o; exit }
+  o.parse!
+end
+
 def guard_detected? 
   guard_detected ||= (`bundle show >/dev/null 2>&1; echo $?`.strip == '0')
 end
@@ -22,6 +30,12 @@ def rails_cmd
   File.exists?( 'script/console' ) ?
     'script/' :
     'rails '
+end
+
+def guard_groups
+  $guard_groups.nil? ?
+    '' :
+    $guard_groups.map { |g| " -g #{g}" }.join
 end
 
 def session_name
@@ -67,12 +81,14 @@ tests_pane_id = `#{get_current_pane_id_cmd}`.strip
 
 if guard_detected?
   puts "* Detected Guard configuration"
-  `#{tmux_cmd} send-keys -t "%#{tests_pane_id}" "#{command_prefix} guard --clear" C-m`
+
+  `#{tmux_cmd} send-keys -t "%#{tests_pane_id}" "#{command_prefix} guard --clear#{guard_groups}" C-m`
   `#{tmux_cmd} split-window -v -p 40 -t "%#{tests_pane_id}"`
 end
 
 if rails_detected?
   puts "* Detected Rails project"
+
   `#{tmux_cmd} new-window -t #{session_name} -n #{web_server_window_name}`
   web_server_pane_id = `#{get_current_pane_id_cmd}`.strip
   `#{tmux_cmd} send-keys -t "%#{web_server_pane_id}" "#{command_prefix} #{rails_cmd}server" C-m`
