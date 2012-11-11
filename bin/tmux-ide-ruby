@@ -2,111 +2,531 @@
 
 require 'optparse'
 
-OptionParser.new do |o|
-  o.on('-g GUARD GROUPS') { |groups| $guard_groups = groups.split( ',' ) }
-  o.on('-h') { puts o; exit }
-  o.parse!
-end
+class Env
 
-def guard_detected? 
-  guard_detected ||= (`bundle show >/dev/null 2>&1; echo $?`.strip == '0')
-end
-
-def rails_detected?
-  rails_detected ||= (File.exists?( 'app' ) && File.exists?( 'config' ) && File.exists?( 'db' ))
-end
-
-def bundler_detected?
-  bundler_detected ||= %w(0 1).include?( `bundle check >/dev/null 2>&1; echo $?`.strip )
-end
-
-def command_prefix 
-  bundler_detected? ? 
-    'bundle exec' : 
-    ''
-end
-
-def rails_cmd
-  File.exists?( 'script/console' ) ?
-    'script/' :
-    'rails '
-end
-
-def guard_groups
-  $guard_groups.nil? ?
-    '' :
-    $guard_groups.map { |g| " -g #{g}" }.join
-end
-
-def session_name
-  File.basename Dir.pwd
-end
-
-def tmux_cmd
-  "tmux -S /var/tmux/#{session_name}"
-end
-
-def get_current_pane_id_cmd 
-  "#{tmux_cmd} list-panes -F \"\#{pane_active} \#{pane_id}\" | sed -n -e '/^1 /s/^1 %\\([0-9]*\\)$/\\1/gp'"
-end
-
-def code_test_window_name
-  'code/test'
-end
-
-def web_server_window_name
-  'web-server'
-end
-
-def repl_window_name
-  'REPL'
-end
-
-puts 'Setting up tmux IDE for Ruby'
-
-if bundler_detected?
-  puts "* Detected Bundler configuration"
-end
-
-`#{tmux_cmd} new-session -s #{session_name} -d`
-
-vim_pane_id = `#{get_current_pane_id_cmd}`.strip
-
-`#{tmux_cmd} rename-window -t "%#{vim_pane_id}" #{code_test_window_name}`
-
-`#{tmux_cmd} send-keys -t "%#{vim_pane_id}" 'vim .' C-m`
-
-`#{tmux_cmd} split-window -h -p 40 -t "%#{vim_pane_id}"`
-tests_pane_id = `#{get_current_pane_id_cmd}`.strip
-
-if guard_detected?
-  puts "* Detected Guard configuration"
-
-  `#{tmux_cmd} send-keys -t "%#{tests_pane_id}" "#{command_prefix} guard --clear#{guard_groups}" C-m`
-  `#{tmux_cmd} split-window -v -p 40 -t "%#{tests_pane_id}"`
-end
-
-if rails_detected?
-  puts "* Detected Rails project"
-
-  `#{tmux_cmd} new-window -t #{session_name} -n #{web_server_window_name}`
-  web_server_pane_id = `#{get_current_pane_id_cmd}`.strip
-  `#{tmux_cmd} send-keys -t "%#{web_server_pane_id}" "#{command_prefix} #{rails_cmd}server" C-m`
-
-  `#{tmux_cmd} new-window -t #{session_name} -n #{repl_window_name}`
-  repl_pane_id = `#{get_current_pane_id_cmd}`.strip
-  `#{tmux_cmd} send-keys -t "%#{repl_pane_id}" "#{command_prefix} #{rails_cmd}console" C-m`
-else
-  `#{tmux_cmd} new-window -t #{session_name} -n #{repl_window_name}`
-  repl_pane_id = `#{get_current_pane_id_cmd}`.strip
-  if bundler_detected?
-    `#{tmux_cmd} send-keys -t "%#{repl_pane_id}" "bundle console" C-m`
-  else
-    `#{tmux_cmd} send-keys -t "%#{repl_pane_id}" "irb" C-m`
+  def self.parse_options!
+    OptionParser.new do |o|
+      o.on('--no-editor')     { $run_editor = false }
+      o.on('--no-guard')      { $run_guard = false }
+      o.on('--no-repl')       { $run_repl = false }
+      o.on('--no-web-server') { $run_web_server = false }
+      o.on('--use-foreman')   { $use_foreman = true }
+      o.on('-g GUARD GROUPS') { |groups| $guard_groups = groups.split( ',' ) }
+      o.on('-h')              { puts o; exit }
+      o.parse!
+    end
   end
+
+  def self.run_guard?
+    $run_guard.nil? ? true : $run_guard
+  end
+
+  def self.run_repl?
+    $run_repl.nil? ? true : $run_repl
+  end
+
+  def self.run_editor?
+    $run_editor.nil? ? true : $run_editor
+  end
+
+  def self.run_web_server?
+    $run_web_server.nil? ? true : $run_web_server
+  end
+
+  def self.use_foreman?
+    use_foreman = $use_foreman.nil? ? false : $use_foreman
+    use_foreman && foreman_detected?
+  end
+
+  def self.session_name
+    @session_name = File.basename( Dir.pwd )
+  end
+
+  def self.foreman_detected?
+    @foreman_detected ||= File.exists?( 'Procfile' )
+  end
+
+  def self.git_detected?
+    @git_detected ||= File.exists?( '.git' ) && File.directory?( '.git' )
+  end
+
+  def self.guard_detected? 
+    @guard_detected ||= (`bundle show >/dev/null 2>&1; echo $?`.strip == '0')
+  end
+
+  def self.guard_groups
+    $guard_groups.nil? ?
+      '' :
+      $guard_groups.map { |g| " -g #{g}" }.join
+  end
+
+  def self.rails_detected?
+    @rails_detected ||= (File.exists?( 'app' ) && File.exists?( 'config' ) && File.exists?( 'db' ))
+  end
+
+  def self.bundler_detected?
+    @bundler_detected ||= %w(0 1).include?( `bundle check >/dev/null 2>&1; echo $?`.strip )
+  end
+
+  def self.command_prefix
+    bundler_detected? ?
+      'bundle exec' :
+      ''
+  end
+
+  def self.rails_cmd
+    File.exists?( 'script/console' ) ?
+      'script/' :
+      'rails '
+  end
+
 end
 
-`#{tmux_cmd} select-window -t #{code_test_window_name}`
-`#{tmux_cmd} select-pane -t "%#{vim_pane_id}"`
+class TerminalControlEscape
 
-`#{tmux_cmd} attach-session -t #{session_name}`
+  def self.escape
+    "\033"
+  end
+
+  def self.reset_escape
+    "#{escape}[0m"
+  end
+
+  def self.green_escape
+    "#{escape}[32m"
+  end
+
+  def self.cyan_escape
+    "#{escape}[36m"
+  end
+
+  def self.magenta_escape
+    "#{escape}[35m"
+  end
+
+  def self.red_escape
+    "#{escape}[31m"
+  end
+
+  def self.yellow_escape
+    "#{escape}[33m"
+  end
+
+  def self.blue_escape
+    "#{escape}[34m"
+  end
+
+  def self.bold_escape
+    "#{escape}[1m"
+  end
+
+  def self.underlined_escape
+    "#{escape}[4m"
+  end
+
+end
+Tce = TerminalControlEscape
+
+class Tmux
+
+  def self.instance
+    @instance || Tmux.new
+  end
+
+  def tmux_cmd
+    "tmux -S /var/tmux/#{Env.session_name}"
+  end
+
+  def create_new_session_and_detach
+    `#{tmux_cmd} new-session -s #{Env.session_name} -d`
+  end
+
+  def create_window( name )
+    `#{tmux_cmd} new-window -t #{Env.session_name} -n #{name}`
+  end
+
+  def split_window( window_id )
+    `#{tmux_cmd} split-window -h -t #{window_id}`
+  end
+
+  def split_pane( pane_id )
+    `#{tmux_cmd} split-window -h -t "%#{pane_id}`
+  end
+
+  def apply_layout( window_id, layout )
+    `#{tmux_cmd} select-layout -t #{window_id} "#{layout}"`
+  end
+
+  def attach_session( session_name )
+    `#{tmux_cmd} attach-session -t #{session_name}`
+  end
+
+  def rename_window( window_id, name )
+    `#{tmux_cmd} rename-window -t #{window_id} #{name}`
+  end
+
+  def list_windows( format=nil )
+    cmd = "#{tmux_cmd} list-windows"
+    if format
+      cmd << " -F \"#{format}\""
+    end
+    `#{cmd}`.strip
+  end
+
+  def list_panes( window_id )
+    `#{tmux_cmd} list-panes -t #{window_id} -F "\#{pane_id} \#{pane_height} \#{pane_width}"`.strip
+  end
+
+  def select_window( window_name_or_id )
+    `#{tmux_cmd} select-window -t #{window_name_or_id}`
+  end
+
+  def select_pane( pane_id )
+    `#{tmux_cmd} select-pane -t "%#{pane_id}"`
+  end
+
+  def send_keys( pane_id, keys )
+    `#{tmux_cmd} send-keys -t "%#{pane_id}" #{keys}`
+  end
+
+  def get_current_pane_id
+    `#{get_current_pane_id_cmd}`.strip
+  end
+
+protected
+
+  def target_from_window_or_pane( window_or_pane )
+    window_or_pane.is_a?( Integer ) ?
+      window_or_pane :
+      "\"%#{window_or_pane}\""
+  end
+
+  def get_current_pane_id_cmd 
+    "#{tmux_cmd} list-panes -F \"\#{pane_active} \#{pane_id}\" | sed -n -e '/^1 /s/^1 %\\([0-9]*\\)$/\\1/gp'"
+  end
+
+end
+
+class Window
+
+  attr_reader :id, :name, :panes
+
+  def initialize( options )
+    @id    = options[:id]
+    @name  = options[:name]
+    @panes = []
+
+    if options[:initial]
+      tmux.create_new_session_and_detach
+      tmux.rename_window self.id, self.name
+    else
+      tmux.create_window name
+    end
+
+    pane_id = tmux.get_current_pane_id
+    panes << Pane.new( :window => self, :id => pane_id )
+  end
+
+  def select
+    tmux.select_window id
+  end
+
+  # Split the window (add a pane to this window).
+  #
+  def split
+    tmux.split_window id
+    pane_id = tmux.get_current_pane_id
+    pane = Pane.new( :window => self, :id => pane_id )
+    panes << pane
+    pane
+  end
+
+  def rename( name )
+    @name = name
+    tmux.rename_window id, name
+  end
+
+  def apply_layout( layout )
+    tmux.apply_layout id, layout
+  end
+
+  def find_pane( pane_name_or_id )
+    panes.each do |pane|
+      return pane if pane.id.to_s == pane_name_or_id.to_s || pane.name == pane_name_or_id
+    end
+  end
+
+  def to_s
+    s = "* #{name} | #{id}\n"
+    panes.each do |pane|
+      s << "   #{pane}\n"
+    end
+    s << "\n"
+    s
+  end
+
+protected
+
+  def tmux
+    Tmux.instance
+  end
+
+end
+
+class Pane
+
+  attr_accessor :id, :name, :window
+
+  def initialize( options )
+    @id     = options[:id]
+    @window = options[:window]
+  end
+
+  def area
+    return nil unless height && width
+    height * width
+  end
+
+  def height
+    return @height if @height
+    discover_height_and_width
+    @height
+  end
+
+  def width
+    return @width if @width
+    discover_height_and_width
+    @width
+  end
+
+  def rename( name )
+    @name = name
+  end
+
+  def select
+    window.select if window
+    tmux.select_pane id
+  end
+
+  def send_keys( keys )
+    tmux.send_keys id, keys
+  end
+
+  def to_s
+    "ID: #{id}, Name: #{name}, Height: #{height}, Width: #{width}, Area: #{area}"
+  end
+
+protected
+
+  # Extract the height and width of this pane from the output of listing the panes 
+  # in this pane's containing window.
+  #
+  def discover_height_and_width
+    pane_descriptions = tmux.list_panes( window.id )
+    pane_descriptions = pane_descriptions.split( "\n" )
+
+    pane_descriptions.each do |pane_description|
+      match = pane_description.match( /^%(\d*)\ (\d*)\ (\d*)$/ )
+      if match[1] == id
+        @height = match[2].to_i
+        @width  = match[3].to_i
+      end
+    end
+  end
+
+  def tmux
+    Tmux.instance
+  end
+
+end
+
+class Ide
+
+  attr_reader :windows
+
+  def initialize
+    @windows = []
+  end
+
+  def setup
+    report "Setting up tmux IDE for Ruby"
+    report_detail "Detected Bundler configuration" if Env.bundler_detected?
+
+    code_test_window = add_window( config.code_test_window_name )
+    code_test_window.split
+    code_test_window.split
+    code_test_window.apply_layout( config.code_test_window_layout( screen_area ) )
+    resolve_pane_names_for_code_test_window( code_test_window )
+
+    if Env.guard_detected?
+      report_detail "Detected Guard configuration", :using => Env.run_guard?
+
+      find_pane( 'tests' ).send_keys( "'#{Env.command_prefix} guard --clear#{Env.guard_groups}' C-m" ) if Env.run_guard?
+    end
+
+    if Env.git_detected?
+      report_detail "Detected Git repository"
+      find_pane( 'console' ).send_keys "'git status' C-m"
+    end
+
+    find_pane( 'editor' ).send_keys( "'vim .' C-m" ) if Env.run_editor?
+
+    if Env.rails_detected?
+      report_detail "Detected Rails project"
+      report_detail "Detected Foreman configuration", :using => Env.foreman_detected?
+
+      web_server_window = add_window( config.web_server_window_name )
+      web_server_pane = web_server_window.panes.first
+      web_server_pane.rename 'web-server'
+
+      server_cmd = Env.use_foreman? ?
+                     "'foreman start' C-m" :
+                     "'#{Env.command_prefix} #{Env.rails_cmd}server' C-m"
+
+      find_pane( 'web-server' ).send_keys( server_cmd ) if Env.run_web_server?
+    end
+
+    repl_window = add_window( config.repl_window_name )
+    repl_pane = repl_window.panes.first
+    repl_pane.rename 'repl'
+
+    if Env.rails_detected?
+      find_pane( 'repl' ).send_keys( "'#{Env.command_prefix} #{Env.rails_cmd}console' C-m" ) if Env.run_repl?
+    elsif bundler_detected?
+      find_pane( 'repl' ).send_keys( "'bundle console' C-m" ) if Env.run_repl?
+    else
+      find_pane( 'repl' ).send_keys( "'irb' C-m" ) if Env.run_repl?
+    end
+
+    find_pane( 'editor' ).select
+
+    tmux.attach_session Env.session_name
+  end
+
+protected
+
+  def panes
+    windows.collect { |window| window.panes }.flatten
+  end
+
+  def add_window( name )
+    window = Window.new( :id      => "#{Env.session_name}:#{windows.size + 1}",
+                         :name    => name,
+                         :initial => windows.empty? )
+    windows << window
+    window
+  end
+
+  def find_window( name_or_id )
+    windows.each do |window|
+      return window if window.name == name_or_id || window.id.to_s == name_or_id_to_s
+    end
+  end
+
+  def find_pane( name_or_id )
+    panes.each do |pane|
+      return pane if pane.name == name_or_id || pane.id.to_s == name_or_id.to_s
+    end
+  end
+
+  # Report the dimensions of the screen.
+  #
+  def screen_dimensions
+    dimensions = tmux.list_windows( '#{window_width}x#{window_height}' ).split( "\n" )
+    dimensions = dimensions.first.split( 'x' )
+    dimensions.map( &:to_i )
+  end
+
+  # Calculate the area of the screen.
+  #
+  def screen_area
+    screen_dimensions.first * screen_dimensions.last
+  end
+
+  def report( text )
+    puts "#{Tce.green_escape}#{text}#{Tce.reset_escape}"
+  end
+
+  def report_detail( detail, options={} )
+    puts "#{Tce.cyan_escape} * #{detail}#{Tce.reset_escape}" + 
+         "#{options[:using] ? " #{Tce.yellow_escape}#{Tce.underlined_escape}using#{Tce.reset_escape}" : ''}" +
+         "#{options[:opted_out] ? " #{Tce.red_escape}(opted_out)#{Tce.reset_escape}" : ''}"
+  end
+
+  def tmux
+    Tmux.instance
+  end
+
+  def config
+    @config ||= IdeConfiguration.new
+  end
+
+  def resolve_pane_names_for_code_test_window( window )
+    # TODO: make this work for the two panel layout
+    window.panes.sort { |a,b| b.area <=> a.area }.each_with_index do |pane, idx|
+      pane.name = 'editor'  if idx == 0
+      pane.name = 'tests'   if idx == 1
+      pane.name = 'console' if idx == 2
+    end
+  end
+
+end
+
+class IdeConfiguration
+
+  MAIN_LEFT_LAYOUT  = 'main-left'
+  MAIN_RIGHT_LAYOUT = 'main-right'
+
+  def code_test_window_layout_name
+    configuration[:code_test_window][:layout]
+  end
+
+  def code_test_window_layout( screen_area )
+    screen_description = screen_area > 13000 ? 'large' : 'small'
+    send "code_test_window_#{configuration[:code_test_window][:layout].gsub( '-', '_' )}_layout_#{screen_description}_screen"
+  end
+
+  def code_test_window_name
+    'code/test'
+  end
+
+  def web_server_window_name
+    'web-server'
+  end
+
+  def repl_window_name
+    'REPL'
+  end
+
+protected
+
+  def configuration
+    {
+      :code_test_window => {
+        :layout => MAIN_RIGHT_LAYOUT
+      }
+    }
+  end
+
+  def code_test_window_main_left_layout_large_screen
+    "e916,318x73,0,0{190x73,0,0,0,127x73,191,0[127x43,191,0,1,127x29,191,44,2]}"
+  end
+
+  def code_test_window_main_left_layout_small_screen
+    code_test_window_main_left_layout_large_screen
+  end
+
+  def code_test_window_main_right_layout_large_screen
+    "5f9c,318x73,0,0{100x73,0,0[100x41,0,0,0,100x31,0,42,3],217x73,101,0,1}"
+  end
+
+  def code_test_window_main_right_layout_small_screen
+    "3ff7,205x57,0,0{68x57,0,0[68x33,0,0,0,68x23,0,34,1],136x57,69,0,2}"
+  end
+
+end
+
+Env.parse_options!
+
+ide = Ide.new
+ide.setup
