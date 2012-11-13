@@ -10,7 +10,7 @@ class Env
       o.on('--no-guard')      { $run_guard = false }
       o.on('--no-repl')       { $run_repl = false }
       o.on('--no-web-server') { $run_web_server = false }
-      o.on('--use-foreman')   { $use_foreman = true }
+      o.on('--no-foreman')    { $run_foreman = false }
       o.on('-g GUARD GROUPS') { |groups| $guard_groups = groups.split( ',' ) }
       o.on('-h')              { puts o; exit }
       o.parse!
@@ -33,10 +33,14 @@ class Env
     $run_web_server.nil? ? true : $run_web_server
   end
 
-  def self.use_foreman?
-    use_foreman = $use_foreman.nil? ? false : $use_foreman
-    use_foreman && foreman_detected?
+  def self.run_foreman?
+    $run_foreman.nil? ? true : $run_foreman
   end
+
+  #def self.use_foreman?
+    #use_foreman = $use_foreman.nil? ? false : $use_foreman
+    #use_foreman && foreman_detected?
+  #end
 
   def self.session_name
     @session_name = File.basename( Dir.pwd )
@@ -303,8 +307,9 @@ class Pane
     @name = name
   end
 
-  def select
-    window.select if window
+  def select( options={} )
+    options = {:select_window => true}.merge( options )
+    window.select if options[:select_window] && window
     tmux.select_pane id
   end
 
@@ -375,15 +380,20 @@ class Ide
       report_detail "Detected Rails project"
       report_detail "Detected Foreman configuration", :using => Env.foreman_detected?
 
-      web_server_window = add_window( config.web_server_window_name )
+      web_server_window = add_window( "#{config.web_server_window_name}#{Env.foreman_detected? ? '/foreman' : ''}" )
       web_server_pane = web_server_window.panes.first
-      web_server_pane.rename 'web-server'
+      if Env.foreman_detected?
+        foreman_server_pane = web_server_window.split
+      end
+      #
+      web_server_pane.rename "web-server"
+      foreman_server_pane.rename "foreman"
 
-      server_cmd = Env.use_foreman? ?
-                     "'foreman start' C-m" :
-                     "'#{Env.command_prefix} #{Env.rails_cmd}server' C-m"
+      foreman_cmd = "'foreman start' C-m" 
+      server_cmd = "'#{Env.command_prefix} #{Env.rails_cmd}server' C-m"
 
       find_pane( 'web-server' ).send_keys( server_cmd ) if Env.run_web_server?
+      find_pane( 'foreman' ).send_keys( foreman_cmd ) if Env.foreman_detected? && Env.run_foreman?
     end
 
     repl_window = add_window( config.repl_window_name )
@@ -398,6 +408,7 @@ class Ide
       find_pane( 'repl' ).send_keys( "'irb' C-m" ) if Env.run_repl?
     end
 
+    find_pane( 'web-server' ).select :select_window => false
     find_pane( 'editor' ).select
 
     tmux.attach_session Env.session_name
