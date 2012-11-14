@@ -382,12 +382,11 @@ class Ide
 
       web_server_window = add_window( "#{config.web_server_window_name}#{Env.foreman_detected? ? '/foreman' : ''}" )
       web_server_pane = web_server_window.panes.first
+      web_server_pane.rename "web-server"
       if Env.foreman_detected?
         foreman_server_pane = web_server_window.split
+        foreman_server_pane.rename "foreman"
       end
-      #
-      web_server_pane.rename "web-server"
-      foreman_server_pane.rename "foreman"
 
       foreman_cmd = "'foreman start' C-m" 
       server_cmd = "'#{Env.command_prefix} #{Env.rails_cmd}server' C-m"
