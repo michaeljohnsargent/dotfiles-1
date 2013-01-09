@@ -28,5 +28,5 @@ export PATH=/Users/`whoami`/bin:$PATH;
 unsetopt auto_name_dirs
 
 if [ -f ~/.zshrc-server.d ]; then
-foror FILE in ~/.zshrc-server.d ; do source $FILE ; done
+  for FILE in ~/.zshrc-server.d ; do source $FILE ; done
 fi
