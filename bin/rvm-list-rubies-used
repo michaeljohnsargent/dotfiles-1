@@ -2,6 +2,14 @@
 
 PROJECTS_PATH = ARGV.first
 
+if PROJECTS_PATH.nil? || PROJECTS_PATH.empty?
+  raise 'Please provide your root projects path as an argument'
+end
+
+unless File.directory?( PROJECTS_PATH )
+  raise "Not a directory: #{PROJECTS_PATH}"
+end
+
 rubies_project_list = Dir.glob( "#{PROJECTS_PATH}/**/.rvmrc" ).map do |f|
   match = File.read( f ).match( /([a-z]+\-[\d\.]+\-[a-z\d\.]+)@(.*)/ )
 
@@ -12,8 +20,7 @@ rubies_project_list = Dir.glob( "#{PROJECTS_PATH}/**/.rvmrc" ).map do |f|
   end
 end
 
-
-rubies_project_list.select! { |ruby, project_path| !ruby.nil? }.sort!
+rubies_project_list = rubies_project_list.select { |ruby, project_path| !ruby.nil? }.sort!
 
 rubies_project_map = {}
 
