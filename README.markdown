@@ -7,15 +7,17 @@ This repository contains my OS X shell configuration.
 
 First, create a ~/.api-tokens.yml file with contexts like (replace with you actual API keys):
 
-    ---
-    gemcutter: 7hasfuke9asdfmnasfhe89
-    github: jkasdjf8asdkenfasd9ekkj
+```yaml
+---
+gemcutter: 7hasfuke9asdfmnasfhe89
+github: jkasdjf8asdkenfasd9ekkj
+```
 
 Then simply:
 
 1. Clone this repository.
 2. `cd` into it.
-3. Type `rake --tasks`.
+3. Type `rake -T`.
 
 You should see the following, where _~_ is the path to your home directory:
 
@@ -23,7 +25,8 @@ You should see the following, where _~_ is the path to your home directory:
     rake setup        # Create symbolic links and generate files in ~ without overwriting existing files
     rake setup:force  # Delete and recreate symbolic links and generated files in ~
 
-When you type `rake`, all the files in the root of this repository† are either
+
+When you type `rake`, all the files in the root of this repository are either
 symbolically linked or generated into your home directory, with a dot prepended
 to the filename of each link. For example, the _gemrc_ in this repository gets
 symbolically linked to _~/.gemrc_ (unless there is already a _.gemrc_ in your
