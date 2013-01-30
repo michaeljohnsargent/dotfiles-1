@@ -3,9 +3,8 @@ export ZSH=$HOME/.oh-my-zsh
 
 # Set to the name theme to load.
 # Look in ~/.oh-my-zsh/themes/
-#export ZSH_THEME="gallifrey"
 export ZSH_THEME="midas"
-
+#export ZSH_THEME="fino-time"
 
 # Set to this to use case-sensitive completion
 # export CASE_SENSITIVE="true"
@@ -34,3 +33,5 @@ unsetopt auto_name_dirs
 [[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+
+__rvm_project_rvmrc
