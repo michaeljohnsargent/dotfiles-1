@@ -1,0 +1,3 @@
+export rvm_path="/Users/cjharrelson/.rvm"
+export rvm_archflags="-arch x86_64"
+rvm_archflags="-arch x86_64"
