@@ -1,0 +1,7 @@
+--- 
+:gvtus: 
+  :path: /Users/cjharrelson/development/iberon/gvt-us
+  :cmd: rake db:mulligan CONTEXTS=agencies,users,people,arrangement_templates
+:ncite_server: 
+  :path: /Users/cjharrelson/development/iberon/ncite_server
+  :cmd: rake db:mulligan CONTEXTS=local
