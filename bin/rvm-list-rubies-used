@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+
+PROJECTS_PATH = ARGV.first
+
+rubies_project_list = Dir.glob( "#{PROJECTS_PATH}/**/.rvmrc" ).map do |f|
+  match = File.read( f ).match( /([a-z]+\-[\d\.]+\-[a-z\d\.]+)@(.*)/ )
+
+  if match
+    [match[1], File.dirname( f )]
+  else
+    nil
+  end
+end
+
+
+rubies_project_list.select! { |ruby, project_path| !ruby.nil? }.sort!
+
+rubies_project_map = {}
+
+rubies_project_list.each do |ruby, project_path|
+  unless rubies_project_map.has_key?( ruby )
+    rubies_project_map[ruby] = []
+  end
+
+  rubies_project_map[ruby] << project_path
+end
+
+rubies_project_map.each do |ruby, project_paths|
+  puts '', ruby
+
+  project_paths.sort.each do |path|
+    puts "    #{path}"
+  end
+end
