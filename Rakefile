@@ -1,16 +1,64 @@
 require 'erb'
 
-def generate_or_symlink(file, options={})
+desc "Create symbolic links and generate files in #{ENV['HOME']} without overwriting existing files"
+task :setup do
+  setup
+end
+
+desc "Create symbolic links and generate files in #{ENV['HOME']} without overwriting existing files"
+task '' => :setup
+
+namespace :setup do
+  desc "Delete and recreate symbolic links and generated files in #{ENV['HOME']}"
+  task :force do
+    setup :force => true
+  end
+end
+
+task :default => :setup
+
+#--------------------------------------------------------------------------------------------------------
+
+def setup( options={} )
+  Dir.glob("#{File.dirname __FILE__}/*") do |entry|
+    if rakefile?( entry )      ||
+       markdown_file?( entry ) ||
+       generated_file?( entry )
+      next
+    end
+
+    generate_or_symlink entry, options
+  end
+end
+
+def rakefile?( file )
+  File.expand_path( file ) == File.expand_path(__FILE__) 
+end
+
+def markdown_file?( file )
+  File.extname( file ).downcase == '.markdown'
+end
+
+def generated_file?( file )
+  File.basename( file ).include? '-generated'
+end
+
+def exists?( file )
+  File.exists?( dotfile ) || File.symlink?( dotfile )
+end
+
+def generate_or_symlink( file, options={} )
   extname = File.extname(file)
   is_erb = (extname =~ /^\.erb/i)
   is_dir = File.directory?(file)
   basename = File.basename(file, (is_erb ? extname : ''))
-  dotfile = is_dir ? "#{ENV['HOME']}/#{basename}" : "#{ENV['HOME']}/.#{basename}"
   dotfile_short = is_dir ? "~/#{basename}" : "~/.#{basename}"
-  if File.exist?(dotfile) || File.symlink?(dotfile)
+  dotfile = File.expand_path( dotfile_short )
+
+  if exists?( dotfile )
     if options[:force]
       File.delete dotfile
-      info "Deleted #{dotfile_short}"
+      info "Moved #{dotfile_short} to #{dotfile_short}"
     else
       warning "Not replacing existing #{dotfile_short}"
       return
@@ -40,43 +88,14 @@ def generate_or_symlink(file, options={})
   end
 end
 
-def info(message)
+def info( message )
   puts "*** #{message}"
 end
 
-def setup(options={})
-  Dir.glob("#{File.dirname __FILE__}/*") do |entry|
-    if (File.expand_path(entry) == File.expand_path(__FILE__)) ||
-       (File.extname(entry).downcase == '.markdown')           ||
-       (File.basename(entry).include?('-generated'))
-      next
-    end
-
-    generate_or_symlink entry, options
-  end
-end
-
-def success(message)
+def success( message )
   puts "\x1b[32m*** #{message}\x1b[0m"
 end
 
-def warning(message)
+def warning( message )
   puts "\x1b[31m*** #{message}\x1b[0m"
 end
-
-desc "Create symbolic links and generate files in #{ENV['HOME']} without overwriting existing files"
-task :setup do
-  setup
-end
-
-desc "Create symbolic links and generate files in #{ENV['HOME']} without overwriting existing files"
-task '' => :setup
-
-namespace :setup do
-  desc "Delete and recreate symbolic links and generated files in #{ENV['HOME']}"
-  task :force do
-    setup :force => true
-  end
-end
-
-task :default => :setup
