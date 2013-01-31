@@ -1,2 +1,4 @@
 .DS_STORE
 *-generated
+
+/tmp/rspec_guard_result
