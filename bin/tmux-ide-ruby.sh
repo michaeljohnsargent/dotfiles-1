@@ -30,57 +30,61 @@ case $? in
     ;;
 esac
 
+#code_test_window_layout="e916,318x73,0,0{190x73,0,0,0,127x73,191,0[127x43,191,0,1,127x29,191,44,2]}"
+
 command_prefix=""
 if [ $bundler ]; then
   command_prefix="bundle exec"
 fi
 
-code_test_window_name='code/test'
-web_server_window_name='web-server'
-repl_window_name='REPL'
-
+cd_clear_cmd="cd ~; cd $(pwd); clear"
 session_name=`basename $(pwd)`
 tmux_cmd="tmux -S /var/tmux/$session_name"
-
 $tmux_cmd new-session -s $session_name -d
 
-vim_pane_id=`$tmux_cmd list-panes -F "#{pane_active} #{pane_id}" | sed -n -e '/^1 /s/^1 %\([0-9]*\)$/\1/gp'`
+$tmux_cmd rename-window -t $session_name:1 'code/test'
+$tmux_cmd send-keys -t $session_name "$cd_clear_cmd" C-m
 
-$tmux_cmd rename-window -t "%$vim_pane_id" $code_test_window_name
-
-$tmux_cmd send-keys -t "%$vim_pane_id" 'vim .' C-m
-
-$tmux_cmd split-window -h -p 40 -t "%$vim_pane_id"
-tests_pane_id=`$tmux_cmd list-panes -F "#{pane_active} #{pane_id}" | sed -n -e '/^1 /s/^1 %\([0-9]*\)$/\1/gp'`
+$tmux_cmd split-window -h -p 68 -t $session_name
 
 guard show >/dev/null 2>&1
-
 if [ $? = 0 ]; then
   echo "* Detected Guard configuration"
-  $tmux_cmd send-keys -t "%$tests_pane_id" "$command_prefix guard --clear" C-m
-  $tmux_cmd split-window -v -p 40 -t "%$tests_pane_id"
+  $tmux_cmd select-pane -t $session_name:1.1
+  $tmux_cmd split-window -v -p 40 -t $session_name
+  $tmux_cmd send-keys -t $session_name:1.2 "$cd_clear_cmd" C-m
+  $tmux_cmd send-keys -t $session_name:1.3 "$cd_clear_cmd" C-m
+  $tmux_cmd send-keys -t $session_name:1.1 "$command_prefix guard --clear"
+  $tmux_cmd send-keys -t $session_name:1.3 'vim .' C-m
+else
+  $tmux_cmd send-keys -t $session_name:1.2 'vim .' C-m
 fi
+
+#$tmux_cmd select-layout -t $session_name:1 "$code_test_window_layout"
 
 if [ -d app ] && [ -d config ] && [ -d db ]; then
   echo "* Detected Rails project"
-  $tmux_cmd new-window -t $session_name -n $web_server_window_name
-  web_server_pane_id=`$tmux_cmd list-panes -F "#{pane_active} #{pane_id}" | sed -n -e '/^1 /s/^1 %\([0-9]*\)$/\1/gp'`
-  $tmux_cmd send-keys -t "%$web_server_pane_id" "$command_prefix `if [ -f script/server ]; then echo 'script/'; else echo 'rails '; fi`server" C-m
+  $tmux_cmd new-window -t $session_name -n 'servers'
+  $tmux_cmd split-window -h -p 50 -t $session_name
+  $tmux_cmd send-keys -t $session_name:2.1 "$cd_clear_cmd" C-m
+  $tmux_cmd send-keys -t $session_name:2.1 "$command_prefix `if [ -f script/server ]; then echo 'script/'; else echo 'rails '; fi`server"
+  $tmux_cmd send-keys -t $session_name:2.2 "$cd_clear_cmd" C-m
 
-  $tmux_cmd new-window -t $session_name -n $repl_window_name
-  repl_pane_id=`$tmux_cmd list-panes -F "#{pane_active} #{pane_id}" | sed -n -e '/^1 /s/^1 %\([0-9]*\)$/\1/gp'`
-  $tmux_cmd send-keys -t "%$repl_pane_id" "$command_prefix `if [ -f script/console ]; then echo 'script/'; else echo 'rails '; fi`console" C-m
+  $tmux_cmd new-window -t $session_name -n REPL
+  $tmux_cmd send-keys -t $session_name:3.1 "$cd_clear_cmd" C-m
+  $tmux_cmd send-keys -t $session_name:3.1 "$command_prefix `if [ -f script/console ]; then echo 'script/'; else echo 'rails '; fi`console"
 else
-  $tmux_cmd new-window -t $session_name -n $repl_window_name
-  repl_pane_id=`$tmux_cmd list-panes -F "#{pane_active} #{pane_id}" | sed -n -e '/^1 /s/^1 %\([0-9]*\)$/\1/gp'`
+  $tmux_cmd new-window -t $session_name -n REPL
+  $tmux_cmd send-keys -t $session_name:3.1 "$cd_clear_cmd" C-m
   if [ $bundler ]; then
-    $tmux_cmd send-keys -t "%$repl_pane_id" "bundle console" C-m
+    $tmux_cmd send-keys -t $session_name:2 "bundle console"
   else
-    $tmux_cmd send-keys -t "%$repl_pane_id" "irb" C-m
+    $tmux_cmd send-keys -t $session_name:2 "irb"
   fi
 fi
 
-$tmux_cmd select-window -t $code_test_window_name
-$tmux_cmd select-pane -t "%$vim_pane_id"
+$tmux_cmd select-pane -t $session_name:2.1
+$tmux_cmd select-window -t $session_name:1
+$tmux_cmd select-pane -t $session_name:1.3
 
 $tmux_cmd attach-session -t $session_name
