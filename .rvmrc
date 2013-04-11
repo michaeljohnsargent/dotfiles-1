@@ -1,4 +1,4 @@
-rvm ruby-1.9.3-p385@dotfiles --create
+rvm ruby-1.9.3-p392@dotfiles --create
 if [ `uname -s` = "Darwin" ]; then
   rvm current
 fi
