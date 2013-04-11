@@ -8,7 +8,12 @@ set laststatus=2
 set t_Co=256
 colorscheme nick-railscasts
 
-:set guifont=Monaco:h12
+" Vim Powerline status bar
+set encoding=utf-8
+let g:Powerline_symbols = 'fancy'
+
+":set guifont=Monaco:h12
+":set guifont=Monaco\ for\ Powerline
 :set guioptions-=T
 
 :set nowrap
@@ -74,10 +79,6 @@ let g:ruby_doc_rspec_mapping='RS'
 let g:jquery_doc_command='open'
 let g:jquery_doc_mapping='JJ'
 " }
-
-" Vim Powerline status bar
-set encoding=utf-8
-let g:Powerline_symbols = 'fancy'
 
 function! DoPrettyXML()
     " save the filetype so we can restore it later
