@@ -10,7 +10,9 @@ colorscheme nick-railscasts
 
 " Vim Powerline status bar
 set encoding=utf-8
-let g:Powerline_symbols = 'fancy'
+"let g:Powerline_theme       = 'default'
+let g:Powerline_colorscheme = 'default'
+let g:Powerline_symbols     = 'fancy'
 
 ":set guifont=Monaco:h12
 ":set guifont=Monaco\ for\ Powerline
@@ -30,6 +32,21 @@ filetype on
 filetype plugin on
 filetype indent on
 syntax on
+
+" ================ Completion =======================
+"
+set wildmode=list:longest
+set wildmenu                "enable ctrl-n and ctrl-p to scroll thru matches
+set wildignore=*.o,*.obj,*~ "stuff to ignore when tab completing
+set wildignore+=*vim/backups*
+set wildignore+=*sass-cache*
+set wildignore+=*DS_Store*
+set wildignore+=vendor/rails/**
+set wildignore+=vendor/cache/**
+set wildignore+=*.gem
+set wildignore+=log/**
+set wildignore+=tmp/**
+set wildignore+=*.png,*.jpg,*.gif
 
 "Mappings {
 inoremap jj <esc>
