@@ -61,11 +61,16 @@ map <Space> i
 
 "NERDTree options {
 let NERDTreeWinPos  = 'right'
-let NERDTreeWinSize = 40
+let NERDTreeWinSize = 50
 "let NERDTreeIgnore  =   ['\.pyc$','\.swp$', '\.log$']
 "}
 autocmd VimEnter * NERDTreeClose
 "autocmd VimEnter * wincmd p
+
+"Buffer Gator options {
+let g:buffergator_split_size=51
+let g:buffergator_sort_regime='basename'
+" }
 
 "Strip trailing whitespace {
 fun! <SID>StripTrailingWhitespaces()
