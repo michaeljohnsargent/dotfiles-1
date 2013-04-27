@@ -96,21 +96,21 @@ Host ie-stage
 # medic-ce production
 
  Host mce-prod
-  Hostname     10.0.3.104
+  Hostname     medic-ce.prod.iberon.com
   User         cjharrelson
 
  Host mce-prod-d
-  Hostname     10.0.3.104
+  Hostname     medic-ce.prod.iberon.com
   User         deployer
 
 # medic-ce ib staging
 
  Host mce-stage
-  Hostname     10.0.2.104
+  Hostname     medic-ce.staging.iberon.com
   User         cjharrelson
 
  Host mce-stage-d
-  Hostname     10.0.2.104
+  Hostname     medic-ce.staging.iberon.com
   User         deployer
 
 # fluidigital
