@@ -1,0 +1,144 @@
+ ServerAliveInterval 60
+ ServerAliveCountMax 3
+ IdentityFile ~/.ssh/id_rsa
+ IdentityFile ~/.ssh/id_dsa
+
+# ncite pass control production (passcontrol.law.iberon.com - 10.0.7.108)
+
+ Host pctrl-prod
+  Hostname     passcontrol.law.iberon.com
+  User         cjharrelson
+
+ Host pctrl-prod-d
+  Hostname     passcontrol.law.iberon.com
+  User         deployer
+
+# ncite pass control visitor production (pre registration) (passcontrol-visitor.law.iberon.com - )
+
+ Host visitor-prod
+  Hostname     passcontrol-visitor.law.iberon.com
+  User         cjharrelson
+
+ Host visitor-prod-d
+  Hostname     passcontrol-visitor.law.iberon.com
+  User         deployer
+
+# ncite production (ncite.law.iberon.com - 10.0.7.105)
+
+ Host ncite-prod
+  Hostname     ncite.law.iberon.com
+  User         cjharrelson
+
+ Host ncite-prod-d
+  Hostname     ncite.law.iberon.com
+  User         deployer
+
+# ncite staging (ncite.staging.iberon.com - 10.0.5.102)
+
+ Host ncite-stage
+  Hostname     ncite.staging.iberon.com
+  User         cjharrelson
+
+ Host ncite-stage-d
+  Hostname     ncite.staging.iberon.com
+  User         deployer
+
+# gvt-us production (gvtus.law.iberon.com - 10.0.7.104)
+
+ Host gvt-prod
+  Hostname     gvtus.law.iberon.com
+  User         cjharrelson
+
+ Host gvt-prod-d
+  Hostname     gvtus.law.iberon.com
+  User         deployer
+
+# gvt-us staging (gvtus.staging.iberon.com - 10.0.5.104)
+
+ Host gvt-stage
+  Hostname     gvtus.staging.iberon.com
+  User         cjharrelson
+
+ Host gvt-stage-d
+  Hostname     gvtus.staging.iberon.com
+  User         deployer
+
+# gvtus demo (gvtus-demo.staging.iberon.com - 10.0.5.106)
+
+ Host gvt-demo
+  Hostname     gvtus-demo.staging.iberon.com
+  User         cjharrelson
+
+ Host gvt-demo-d
+  Hostname     gvtus-demo.staging.iberon.com
+  User         deployer
+
+# item-engine production
+
+ Host ie-prod
+  Hostname     10.0.3.105
+  User         cjharrelson
+
+ Host ie-prod
+  Hostname     10.0.3.105
+  User         deployer
+
+# item-engine staging
+
+ Host ie-stage
+  Hostname     10.0.2.105
+  User         cjharrelson
+
+Host ie-stage
+ Hostname     10.0.2.105
+ User         deployer
+
+# medic-ce production
+
+ Host mce-prod
+  Hostname     10.0.3.104
+  User         cjharrelson
+
+ Host mce-prod-d
+  Hostname     10.0.3.104
+  User         deployer
+
+# medic-ce ib staging
+
+ Host mce-stage
+  Hostname     10.0.2.104
+  User         cjharrelson
+
+ Host mce-stage-d
+  Hostname     10.0.2.104
+  User         deployer
+
+# fluidigital
+ Host fd
+  Hostname     fluiddigitalmedia.com
+  User         fluiddig
+
+# fluidigital staging
+ Host fd-stage
+  Hostname     acceptance.fluiddigitalmedia.com
+  User         fluidacc
+
+# hei
+ Host hei
+  Hostname     homeentertainmentinc.com
+  User         homeent
+
+# hei staging
+ Host hei-stage
+  Hostname     acceptance.homeentertainmentinc.com
+  User         heiacc
+
+# jasonharrelson
+ Host jh
+  Hostname     jasonharrelson.com
+  User         jasonhar
+
+# archivalock production
+ Host archiv-prod
+  Hostname     ec2-184-73-165-246.compute-1.amazonaws.com
+  User         deploy
