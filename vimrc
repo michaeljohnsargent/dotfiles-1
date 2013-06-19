@@ -4,11 +4,13 @@ set laststatus=2
 set t_Co=256
 colorscheme nick-railscasts
 
+source ~/.vim-config/powerline
+
 " Vim Powerline ###################################################
 set encoding=utf-8
 "let g:Powerline_theme       = 'default'
-" let g:Powerline_colorscheme = 'default'
-" let g:Powerline_symbols     = 'fancy'
+let g:Powerline_colorscheme = 'default'
+let g:Powerline_symbols     = 'fancy'
 " Vim Powerline ###################################################
 
 set rtp+=~/.vim/bundle/vundle/
