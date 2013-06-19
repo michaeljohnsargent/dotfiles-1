@@ -4,7 +4,7 @@ set laststatus=2
 set t_Co=256
 colorscheme nick-railscasts
 
-source ~/.vim-config/powerline
+"source ~/.vim-config/powerline
 
 " Vim Powerline ###################################################
 set encoding=utf-8
