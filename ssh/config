@@ -13,6 +13,16 @@
   Hostname     passcontrol.law.iberon.com
   User         deployer
 
+# ncite pass control staging (passcontrol.law.iberon.com - 10.0.7.65)
+
+ Host pctrl-stage
+  Hostname     10.0.7.65
+  User         cjharrelson
+
+ Host pctrl-stage-d
+  Hostname     10.0.7.65
+  User         deployer
+
 # ncite pass control visitor production (pre registration) (passcontrol-visitor.law.iberon.com - )
 
  Host visitor-prod
