@@ -54,6 +54,7 @@ Bundle 'honza/vim-snippets.git'
 Bundle 'tpope/vim-surround.git'
 Bundle 'scrooloose/syntastic.git'
 Bundle 'majutsushi/tagbar.git'
+"Bundle 'christoomey/vim-tmux-navigator'
 Bundle 'ZoomWin'
 " Vundler ##########################################################
 
