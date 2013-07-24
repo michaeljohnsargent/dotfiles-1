@@ -37,3 +37,4 @@ PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 __rvm_project_rvmrc
 
 export DEFER_GC="0.0"
+setopt HIST_IGNORE_SPACE
