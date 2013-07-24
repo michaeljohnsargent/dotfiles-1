@@ -25,8 +25,11 @@ Bundle 'ack.vim'
 Bundle 'vim-scripts/buffergrep.git'
 Bundle 'vim-scripts/compview.git' 
 Bundle 'ctrlp.vim'
-Bundle 'mattn/gist-vim.git'
+Bundle 'elixir-lang/vim-elixir.git'
+Bundle 'carlosgaldino/elixir-snippets.git'
 Bundle 'vim-scripts/grep.vim.git'
+Bundle 'mattn/gist-vim.git'
+Bundle 'airblade/vim-gitgutter'
 Bundle 'scrooloose/nerdcommenter.git'
 Bundle 'scrooloose/nerdtree.git'
 Bundle 'jeetsukumaran/vim-buffergator.git'
@@ -36,7 +39,10 @@ Bundle 'tpope/vim-endwise.git'
 Bundle 'tpope/vim-fugitive.git'
 Bundle 'tpope/vim-haml.git'
 Bundle 'pangloss/vim-javascript.git'
+Bundle 'othree/javascript-libraries-syntax.vim.git'
+Bundle 'lucapette/vim-jquery-doc.git'
 Bundle 'vim-scripts/vim-jsbeautify.git'
+Bundle 'plasticboy/vim-markdown.git'
 Bundle 'tsaleh/vim-matchit.git'
 Bundle 'juvenn/mustache.vim.git'
 Bundle 'Lokaltog/vim-powerline.git'
@@ -44,6 +50,8 @@ Bundle 'ervandew/supertab.git'
 Bundle 'godlygeek/tabular.git'
 Bundle 'tpope/vim-rails.git'
 Bundle 'vim-ruby/vim-ruby.git'
+Bundle 'lucapette/vim-ruby-doc.git'
+Bundle 'vim-scripts/SearchComplete.git'
 Bundle 'vimez/vim-showmarks.git'
 Bundle "garbas/vim-snipmate"
   Bundle "MarcWeber/vim-addon-mw-utils"
@@ -68,15 +76,22 @@ set cursorline " highlight the current line
 set number " turn on line numbers
 set backspace=2
 set expandtab
-set ts=2
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 set showcmd
-
+set autoindent
+set smartindent
 
 filetype on
 filetype plugin on
 filetype indent on
 syntax on
+
+set hlsearch " Highlight search results
+
+iabbrev teh the
+iabbrev Teh The
+iabbrev TEH TWHE
 
 " Mappings #########################################################
 "let mapleader = ","
@@ -97,6 +112,7 @@ nnoremap <Leader>c :set cursorline!<CR>
 nnoremap <leader>[ :BuffergatorToggle<CR>
 nnoremap <leader>n :NERDTreeToggle<CR>
 nnoremap <leader>] :NERDTreeToggle<CR>
+nnoremap <leader>/ :GitGutterToggle<CR>
 "map <C-n> :NERDTreeToggle<CR>
 "nmap <F8> :TagbarToggle<CR>
 nnoremap <leader>' :TagbarToggle<CR>
@@ -126,7 +142,15 @@ let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
   "\ }
 " CtrlP  ###########################################################
 
-" NERDTree #########################################################
+" git-gutter #######################################################
+let g:gitgutter_enabled = 0
+" git-gutter #######################################################
+"
+" javascript-libraries-syntax ######################################
+let g:used_javascript_libs = 'angularjs,backbone,jquery,underscore'
+" javascript-libraries-syntax ######################################
+
+"NERDTree ##########################################################
 let NERDTreeWinPos  = 'right'
 let NERDTreeWinSize = 50
 let NERDTreeIgnore  =   ['\.pyc$','\.swp$', '\.log$']
@@ -155,6 +179,20 @@ if exists(":Tabularize")
   vmap <Leader>a= :Tabularize /=<CR>
 endif
 " Tabular #########################################################
+
+" vim-jquery-doc #################################################
+let g:jquery_doc_command='open'
+let g:jquery_doc_mapping='RJ'
+" vim-jquery-doc #################################################
+
+" vim-ruby-doc ###################################################
+let g:ruby_doc_command='open'
+let g:ruby_doc_ruby_mapping='RB'
+let g:ruby_doc_ruby_host='http://apidock.com/ruby/'
+let g:ruby_doc_rails_mapping='RR'
+let g:ruby_doc_rails_host='http://apidock.com/rails/'
+let g:ruby_doc_rspec_mapping='RS'
+" vim-ruby-doc ###################################################
 
 " Strip trailing whitespace #######################################
 fun! <SID>StripTrailingWhitespaces()
