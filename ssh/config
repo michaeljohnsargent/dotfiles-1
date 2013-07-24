@@ -148,6 +148,11 @@ Host ie-stage
   Hostname     jasonharrelson.com
   User         jasonhar
 
+# steelpointe
+ Host steelpointe
+  Hostname     jasonharrelson.com
+  User         steel
+
 # archivalock production
  Host archiv-prod
   Hostname     ec2-184-73-165-246.compute-1.amazonaws.com
