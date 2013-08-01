@@ -69,6 +69,9 @@ Bundle 'ZoomWin'
 :set guioptions-=T
 :set nowrap
 
+" Do not auto-comment next line when current line is commented
+:set formatoptions-=cro
+
 "set clipboard+=unnamed " share system clipboard
 
 set cursorline " highlight the current line
