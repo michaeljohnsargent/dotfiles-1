@@ -169,6 +169,7 @@ let g:used_javascript_libs = 'angularjs,backbone,jquery,underscore'
 let NERDTreeWinPos  = 'right'
 let NERDTreeWinSize = 50
 let NERDTreeIgnore  =   ['\.pyc$','\.swp$', '\.log$']
+map <leader>p :NERDTreeFind<cr>
 "autocmd VimEnter * NERDTreeClose
 "autocmd VimEnter * wincmd p
 " NERDTree #########################################################
