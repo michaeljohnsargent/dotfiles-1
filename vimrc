@@ -127,6 +127,10 @@ nnoremap <leader>/ :GitGutterToggle<CR>
 "map <C-n> :NERDTreeToggle<CR>
 "nmap <F8> :TagbarToggle<CR>
 nnoremap <leader>' :TagbarToggle<CR>
+
+" Toggle indention for pasting
+nnoremap <F4> :set invpaste paste?<CR>
+set pastetoggle=<F4>
 " Mappings #########################################################
 
 " Completion #######################################################
