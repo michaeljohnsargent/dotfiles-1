@@ -102,6 +102,8 @@ iabbrev teh the
 iabbrev Teh The
 iabbrev TEH THE
 
+let g:vim_markdown_folding_disabled=1
+
 " Mappings #########################################################
 "let mapleader = ","
 nnoremap ; :
