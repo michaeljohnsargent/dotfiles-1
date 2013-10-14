@@ -68,6 +68,10 @@ Bundle 'majutsushi/tagbar.git'
 Bundle 'ZoomWin'
 " Vundler ##########################################################
 
+" no swp files
+set nobackup
+set noswapfile
+
 :set guioptions-=T
 :set nowrap
 
