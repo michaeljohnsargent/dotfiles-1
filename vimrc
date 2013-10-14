@@ -100,7 +100,7 @@ set hlsearch " Highlight search results
 
 iabbrev teh the
 iabbrev Teh The
-iabbrev TEH TWHE
+iabbrev TEH THE
 
 " Mappings #########################################################
 "let mapleader = ","
