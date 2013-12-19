@@ -3,35 +3,36 @@
  IdentityFile ~/.ssh/id_rsa
  IdentityFile ~/.ssh/id_dsa
 
-# ncite pass control production (passcontrol.law.iberon.com - 10.0.7.108)
+# ncite pass control staging (vrh-staging-spc)
 
- Host pctrl-prod
-  Hostname     passcontrol.law.iberon.com
+ Host npc-site
+  Hostname     10.0.11.50
   User         cjharrelson
+  Port         8022
 
- Host pctrl-prod-d
-  Hostname     passcontrol.law.iberon.com
+ Host npc-site-d
+  Hostname     10.0.11.50
   User         deployer
+  Port         8022
 
-# ncite pass control staging (passcontrol.law.iberon.com - 10.0.7.65)
+# ncite pass control acp-staging (vrh-staging-acp1)
 
- Host pctrl-stage
-  Hostname     10.0.7.65
+ Host npc-acp
+  Hostname     10.0.11.50
   User         cjharrelson
+  Port         8023
 
- Host pctrl-stage-d
-  Hostname     10.0.7.65
+ Host npc-acp-d
+  Hostname     10.0.11.50
   User         deployer
+  Port         8023
 
-# ncite pass control visitor production (pre registration) (passcontrol-visitor.law.iberon.com - )
+# ncite pass control acceptance (vrh-acceptance)
 
- Host visitor-prod
-  Hostname     passcontrol-visitor.law.iberon.com
+ Host npc-acc
+  Hostname     10.0.11.50
   User         cjharrelson
-
- Host visitor-prod-d
-  Hostname     passcontrol-visitor.law.iberon.com
-  User         deployer
+  Port         8023
 
 # ncite production (ncite.law.iberon.com - 10.0.7.105)
 
@@ -123,6 +124,11 @@ Host ie-stage
   Hostname     medic-ce.staging.iberon.com
   User         deployer
 
+# tmux
+ Host nils
+  Hostname     10.0.12.109
+  User         cjharrelson
+
 # fluidigital
  Host fd
   Hostname     fluiddigitalmedia.com
@@ -157,3 +163,20 @@ Host ie-stage
  Host archiv-prod
   Hostname     ec2-184-73-165-246.compute-1.amazonaws.com
   User         deploy
+
+# VMs
+ Host vm-centos-scratch
+  Hostname     192.168.251.131
+  User         cjharrelson
+
+ Host vm-centos-db
+  Hostname     192.168.251.132
+  User         cjharrelson
+
+ Host vm-centos-app
+  Hostname     192.168.251.133
+  User         cjharrelson
+
+ Host vm-centos-template
+  Hostname     192.168.251.134
+  User         cjharrelson
