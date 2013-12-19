@@ -58,6 +58,7 @@ Bundle 'vimez/vim-showmarks.git'
 Bundle "garbas/vim-snipmate"
   Bundle "MarcWeber/vim-addon-mw-utils"
   Bundle "tomtom/tlib_vim"
+"Bundle 'slim-template/vim-slim.git'
 Bundle 'gudleik/vim-slim.git'
 Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
 Bundle 'honza/vim-snippets.git'
