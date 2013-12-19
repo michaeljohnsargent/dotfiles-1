@@ -106,7 +106,7 @@ let g:vim_markdown_folding_disabled=1
 
 " Mappings #########################################################
 "let mapleader = ","
-nnoremap ; :
+"nnoremap ; :
 inoremap jj <esc>
 map 0 ^
 map { ^
