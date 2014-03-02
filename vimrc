@@ -69,6 +69,11 @@ Bundle 'majutsushi/tagbar.git'
 Bundle 'ZoomWin'
 " Vundler ##########################################################
 
+:if $VIM_CRONTAB == "true"
+:set nobackup
+:set nowritebackup
+:endif
+
 " no swp files
 set nobackup
 set noswapfile
