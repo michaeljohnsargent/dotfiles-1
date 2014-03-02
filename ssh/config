@@ -5,34 +5,70 @@
 
 # ncite pass control staging (vrh-staging-spc)
 
- Host npc-site
+ Host npc-spc
   Hostname     10.0.11.50
   User         cjharrelson
   Port         8022
 
- Host npc-site-d
+ Host npc-spc-d
   Hostname     10.0.11.50
   User         deployer
   Port         8022
 
-# ncite pass control acp-staging (vrh-staging-acp1)
+# ncite pass control acp1 staging (vrh-staging-acp1)
 
- Host npc-acp
+ Host npc-acp1
   Hostname     10.0.11.50
   User         cjharrelson
   Port         8023
 
- Host npc-acp-d
+ Host npc-acp1-d
   Hostname     10.0.11.50
   User         deployer
   Port         8023
+
+# ncite pass control acp2 staging (vrh-staging-acp2)
+
+ Host npc-acp2
+  Hostname     10.0.11.50
+  User         cjharrelson
+  Port         8027
+
+ Host npc-acp2-d
+  Hostname     10.0.11.50
+  User         deployer
+  Port         8027
+
+# ncite pass control staging (vrh-staging-ews) (pre-registration)
+
+ Host npc-ews
+  Hostname     10.0.11.50
+  User         cjharrelson
+  Port         8025
+
+ Host npc-ews-d
+  Hostname     10.0.11.50
+  User         deployer
+  Port         8025
+
+# ncite pass control staging (vrh-staging-ecp) (enterprise server)
+
+ Host npc-ecp
+  Hostname     10.0.11.50
+  User         cjharrelson
+  Port         8024
+
+ Host npc-ecp-d
+  Hostname     10.0.11.50
+  User         deployer
+  Port         8024
 
 # ncite pass control acceptance (vrh-acceptance)
 
  Host npc-acc
   Hostname     10.0.11.50
   User         cjharrelson
-  Port         8023
+  Port         8024
 
 # ncite production (ncite.law.iberon.com - 10.0.7.105)
 
@@ -74,36 +110,6 @@
   Hostname     gvtus.staging.iberon.com
   User         deployer
 
-# gvtus demo (gvtus-demo.staging.iberon.com - 10.0.5.106)
-
- Host gvt-demo
-  Hostname     gvtus-demo.staging.iberon.com
-  User         cjharrelson
-
- Host gvt-demo-d
-  Hostname     gvtus-demo.staging.iberon.com
-  User         deployer
-
-# item-engine production
-
- Host ie-prod
-  Hostname     10.0.3.105
-  User         cjharrelson
-
- Host ie-prod
-  Hostname     10.0.3.105
-  User         deployer
-
-# item-engine staging
-
- Host ie-stage
-  Hostname     10.0.2.105
-  User         cjharrelson
-
-Host ie-stage
- Hostname     10.0.2.105
- User         deployer
-
 # medic-ce production
 
  Host mce-prod
@@ -128,6 +134,14 @@ Host ie-stage
  Host nils
   Hostname     10.0.12.109
   User         cjharrelson
+
+ Host jeff-personal
+  Hostname     10.0.12.106
+  User         cjharrelson
+
+ Host bwood
+  Hostname     10.0.12.100
+  User         tmux
 
 # fluidigital
  Host fd
