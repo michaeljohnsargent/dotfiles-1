@@ -37,6 +37,13 @@ export EDITOR=vim
 
 # Customize to your needs...
 export PERL5LIB=$PERL5LIB:/usr/local/Cellar/git/1.8.1.5/lib;
+export LUA_HOME=/usr/local/Cellar/lua/5.1.5
+export LUA_DIST_HOME=$LUA_HOME/LuaDist
+LUA_PATH="./?.lua;$LUA_DIST_HOME/lib/lua/?.lua;$LUA_DIST_HOME/lib/lua/?/?.lua;$LUA_DIST_HOME/share/lua/?.lua;$LUA_DIST_HOME/share/lua/?/?.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?/init.lua;/usr/local/lib/lua/5.1/?.lua;/usr/local/lib/lua/5.1/?/init.lua"
+LUA_CPATH="./?.so;$LUA_DIST_HOME/lib/lua/?.so;$LUA_DIST_HOME/lib/lua/?/?.so;$LUA_DIST_HOME/share/lua/?.so;$LUA_DIST_HOME/share/lua/?/?.so;/usr/local/share/lua/5.1/?.so;/usr/local/share/lua/5.1/?/init.so;/usr/local/lib/lua/5.1/?.so;/usr/local/lib/lua/5.1/?/init.so"
+#LUA_PATH=./?.lua;
+export  LUA_PATH
+export  LUAC_PATH
 export JAVA_HOME=$(/usr/libexec/java_home)
 export PATH=/Users/`whoami`/bin:/usr/local/bin:/usr/local:/opt/local/bin:/opt/local/sbin:/usr/local:/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/opt/local/bin:/usr/local/sbin:/Users/cjharrelson/.git-scripts:${JAVA_HOME}/bin:$PATH;
 
