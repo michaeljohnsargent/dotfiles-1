@@ -1,7 +1,41 @@
  ServerAliveInterval 60
  ServerAliveCountMax 3
  IdentityFile ~/.ssh/id_rsa
- IdentityFile ~/.ssh/id_dsa
+ #IdentityFile ~/.ssh/id_dsa
+
+# acception production (acception.law.iberon.com)
+
+ Host acception-prod
+  Hostname     10.0.7.116
+  User         cjharrelson
+
+ Host acception-prod-d
+  Hostname     10.0.7.116
+  User         deployer
+
+# acception staging
+
+ Host acception-stage
+  Hostname     10.0.11.50
+  User         cjharrelson
+  Port         8029
+
+ Host acception-stage-d
+  Hostname     10.0.11.50
+  User         deployer
+  Port         8029
+
+# ncite vetting staging (vetting.aie3.local) (10.1.0.60)
+
+ Host ncite-vetting-stage
+  Hostname     10.0.11.50
+  User         cjharrelson
+  Port         8028
+
+ Host ncite-vetting-stage-d
+  Hostname     10.0.11.50
+  User         deployer
+  Port         8028
 
 # ncite pass control staging (vrh-staging-spc)
 
@@ -63,12 +97,79 @@
   User         deployer
   Port         8024
 
-# ncite pass control acceptance (vrh-acceptance)
+# ncite pass control production (vrh-spc)
 
- Host npc-acc
+ Host npc-spc-prod
   Hostname     10.0.11.50
-  User         cjharrelson
-  Port         8024
+  User         xadministrator
+  Port         8124
+
+ #Host npc-spc-prod-d
+  #Hostname     10.0.11.50
+  #User         deployer
+  #Port         8124
+
+# ncite pass control acp1 production (vrh-acp1)
+
+ Host npc-acp1-prod
+  Hostname     10.0.11.50
+  User         iberon
+  Port         8122
+
+ #Host npc-acp1-d
+  #Hostname     10.0.11.50
+  #User         deployer
+  #Port         8123
+
+# ncite pass control production (vrh-ews) (pre-registration)
+
+ Host npc-ews-prod
+  Hostname     10.0.11.50
+  User         root
+  Port         8126
+
+ #Host npc-ews-d
+  #Hostname     10.0.11.50
+  #User         deployer
+  #Port         8126
+
+# ncite pass control production (vrh-ecp) (enterprise server)
+
+ Host npc-ecp-prod
+  Hostname     10.0.11.50
+  User         root
+  Port         8125
+
+ #Host npc-ecp-prod-d
+  #Hostname     10.0.11.50
+  #User         deployer
+  #Port         8125
+
+# ncite pass control production BAE (vrh-spc)
+
+ Host npc-spc-bae-prod
+  Hostname     10.1.0.21
+  User         root
+
+# ncite pass control acp1 production BAE (vrh-acp1)
+
+ Host npc-acp1-bae-prod
+  Hostname     10.1.1.4
+  User         root
+
+# ncite pass control production BAE (vrh-ews) (pre-registration)
+
+ Host npc-ews-bae-prod
+  #Hostname     10.1.0.6
+  Hostname     158.13.154.22
+  User         root
+
+# ncite pass control production BAE (vrh-epc) (enterprise server)
+
+ Host npc-ecp-prod-bae-prod
+  #Hostname     10.1.0.5
+  Hostname     158.13.154.20
+  User         root
 
 # ncite production (ncite.law.iberon.com - 10.0.7.105)
 
