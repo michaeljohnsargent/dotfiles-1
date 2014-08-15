@@ -15,9 +15,22 @@ export DISABLE_AUTO_UPDATE="true"
 # Uncomment following line if you want to disable colors in ls
 # export DISABLE_LS_COLORS="true"
 
-plugins=(cap gem git github osx rails ruby textmate)
+plugins=(vi-mode cap gem git github osx rails ruby history-substring-search)
 
 source $ZSH/oh-my-zsh.sh
+
+# vi-mode and history-substring-search
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+export KEYTIMEOUT=1
+#VI_MODE_EDIT_CHAR="✖"
+#VI_MODE_TYPE_CHAR="✚"
+#VI_MODE_EDIT_CHAR="✁"
+VI_MODE_EDIT_CHAR="✄"
+VI_MODE_TYPE_CHAR="✎"
+export VI_MODE_EDIT_INDICATOR="%{$fg_bold[red]%}$VI_MODE_EDIT_CHAR%{$reset_color%}"
+export VI_MODE_TYPE_INDICATOR="%{$fg_bold[green]%}$VI_MODE_TYPE_CHAR%{$reset_color%}"
+####
 
 export BUNDLER_EDITOR=vim
 export EDITOR=vim
