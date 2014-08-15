@@ -137,6 +137,10 @@ nnoremap <leader>' :TagbarToggle<CR>
 " Toggle indention for pasting
 nnoremap <F4> :set invpaste paste?<CR>
 set pastetoggle=<F4>
+
+map <Leader>js :!node %<enter>
+map <Leader>rb :!ruby %<enter>
+nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
 " Mappings #########################################################
 
 " Completion #######################################################
