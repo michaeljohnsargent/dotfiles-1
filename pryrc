@@ -12,6 +12,8 @@ Pry.config.editor = 'vim'
 # $ pry-theme install ocean
 #Pry.config.theme = 'railscasts'
 
+Pry.commands.alias_command 'ep', 'exit-program'
+
 if defined?( PryDebugger )
   Pry.commands.alias_command 'c', 'continue'
   Pry.commands.alias_command 's', 'step'
