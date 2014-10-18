@@ -24,7 +24,7 @@ Bundle 'tpope/vim-abolish.git'
 Bundle 'ack.vim' 
 Bundle 'vim-scripts/buffergrep.git'
 Bundle 'vim-scripts/compview.git' 
-Bundle 'ctrlp.vim'
+"Bundle 'ctrlp.vim'
 Bundle 'rizzatti/dash.vim'
   Bundle 'rizzatti/funcoo.vim'
 Bundle 'elixir-lang/vim-elixir.git'
@@ -66,6 +66,8 @@ Bundle 'tpope/vim-surround.git'
 Bundle 'scrooloose/syntastic.git'
 Bundle 'majutsushi/tagbar.git'
 "Bundle 'christoomey/vim-tmux-navigator'
+Bundle 'Shougo/unite.vim.git'
+Bundle 'Shougo/vimproc.git'
 Bundle 'ZoomWin'
 " Vundler ##########################################################
 
@@ -126,7 +128,7 @@ map <Space> i
 nnoremap <Leader>3 :set number!<CR>
 nnoremap <Leader>c :set cursorline!<CR>
 "nnoremap <Leader>c :set cursorline! cursorcolumn!
-nnoremap <leader>[ :BuffergatorToggle<CR>
+"nnoremap <leader>[ :BuffergatorToggle<CR>
 nnoremap <leader>n :NERDTreeToggle<CR>
 nnoremap <leader>] :NERDTreeToggle<CR>
 nnoremap <leader>/ :GitGutterToggle<CR>
@@ -220,6 +222,23 @@ let g:ruby_doc_rails_mapping='RR'
 let g:ruby_doc_rails_host='http://apidock.com/rails/'
 let g:ruby_doc_rspec_mapping='RS'
 " vim-ruby-doc ###################################################
+
+" Unite ##########################################################
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+nnoremap <space>/  :Unite grep:.<cr>
+nnoremap <leader>[ :Unite -quick-match buffer<cr>
+nnoremap <space>b  :Unite -quick-match buffer<cr>
+nnoremap <C-p>     :Unite -no-split -start-insert file_rec/async:!<cr>
+nnoremap <space>f  :Unite -no-split -start-insert file_rec/async:!<cr>
+"nnoremap <C-a> :Unite -no-split -start-insert -auto-preview file_rec/async:!<cr>
+"nnoremap <leader>t :<C-u>Unite -no-split -buffer-name=files   -start-insert file_rec/async:!<cr>
+"nnoremap <leader>f :<C-u>Unite -no-split -buffer-name=files   -start-insert file<cr>
+"nnoremap <leader>r :<C-u>Unite -no-split -buffer-name=mru     -start-insert file_mru<cr>
+"nnoremap <leader>o :<C-u>Unite -no-split -buffer-name=outline -start-insert outline<cr>
+"let g:unite_source_history_yank_enable = 1
+"nnoremap <leader>y :<C-u>Unite -no-split -buffer-name=yank    history/yank<cr>
+"nnoremap <leader>e :<C-u>Unite -no-split -buffer-name=buffer  buffer<cr>
+" Unite ##########################################################
 
 " Strip trailing whitespace #######################################
 fun! <SID>StripTrailingWhitespaces()
