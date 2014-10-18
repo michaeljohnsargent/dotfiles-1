@@ -28,14 +28,12 @@
 # ncite vetting staging (vetting.aie3.local) (10.1.0.60)
 
  Host ncite-vetting-stage
-  Hostname     10.0.11.50
+  Hostname     10.0.11.97
   User         cjharrelson
-  Port         8028
 
  Host ncite-vetting-stage-d
-  Hostname     10.0.11.50
+  Hostname     10.0.11.97
   User         deployer
-  Port         8028
 
 # ncite pass control staging (vrh-staging-spc)
 
