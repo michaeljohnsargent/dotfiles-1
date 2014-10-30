@@ -16,8 +16,8 @@ nnoremap [unite] <Nop>
 nmap <space> [unite]
 
 " General fuzzy search
-nnoremap <silent> [unite]<space> :<C-u>Unite
-      \ -buffer-name=files buffer file_mru bookmark file_rec/async<CR>
+"nnoremap <silent> [unite]<space> :<C-u>Unite
+      "\ -buffer-name=files buffer file_mru bookmark file_rec/async<CR>
 
 " Quick registers
 nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
@@ -61,7 +61,8 @@ nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=sessions session<CR>
 nnoremap <space>/  :Unite grep:.<cr>
 nnoremap <leader>[ :Unite -quick-match buffer<cr>
 "nnoremap <space>b  :Unite -quick-match buffer<cr>
-nnoremap <C-p>     :Unite -no-split -start-insert file_rec/async:!<cr>
+nnoremap <C-p>     :Unite -start-insert file_rec/async:!<cr>
+"nnoremap <C-p>     :Unite -no-split -start-insert file_rec/async:!<cr>
 "nnoremap <space>f  :Unite -no-split -start-insert file_rec/async:!<cr>
 "nnoremap <C-a> :Unite -no-split -start-insert -auto-preview file_rec/async:!<cr>
 "nnoremap <leader>t :<C-u>Unite -no-split -buffer-name=files   -start-insert file_rec/async:!<cr>
