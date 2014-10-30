@@ -7,6 +7,3 @@ cnoremap w!! w !sudo tee % >/dev/null
 
 " <Leader>e: Fast editing of the .vimrc
 nnoremap <Leader>e :e! ~/.vimrc<cr>
-
-" w!!: Writes using sudo
-cnoremap w!! w !sudo tee % >/dev/null
