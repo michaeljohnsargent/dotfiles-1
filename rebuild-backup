@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+cp ~/{.api-tokens.yml,.bash_history,.bash_profile,.bashrc,.chef-api-keys-data-bag.json,.chef-data-bag-key,.digital-ocean,.do-not-delete-gvtus,.do-not-delete-gvtus-2,.ey-cloud.yml,.eyrc,.gemrc,.guard_history,.guardrc,.irb-history,.irb-save-history,.ncite_warning_about_configuring_bundler_for_mysql,.ncite_warning_about_installing_rake,.pry_history,.rvmrc,.s3-credentials.yml,.s3cfg,.zsh_history} /Volumes/Backup/cjharrelson/.
+
+brew list > ~/brew-list.txt
+brew leaves > ~/brew-leaves.txt
+
+ls -1 ~/Applications > ~/applications-user.txt
+ls -1 /Applications > ~/applications.txt
+
+ls -al > ~/home-directory.txt
+
+cp ~/{brew-list.txt,brew-leaves.txt,applications.txt,applications-user.txt,home-directory.txt} /Volumes/Backup/cjharrelson/.
