@@ -7,3 +7,6 @@ cnoremap w!! w !sudo tee % >/dev/null
 
 " <Leader>e: Fast editing of the .vimrc
 nnoremap <Leader>e :e! ~/.vimrc<cr>
+
+" Q for replaying macro
+nnoremap Q @q
