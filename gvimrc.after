@@ -1,8 +1,0 @@
-color sexy-railscasts
-
-:set lines=75
-:set columns=175
-
-:set nowrap
-
-set tabstop=2 shiftwidth=2 expandtab
