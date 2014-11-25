@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+require 'erb'
+
+def root_path
+  File.expand_path( File.dirname( __FILE__ ))
+end
+
+def link( source, destination )
+  `ln -nfs ~/.dotfiles/#{destination} #{source}`
+end
+
+def generate( template_filename, evaluated_filename )
+  File.open "#{root_path}/#{evaluated_filename}", 'w' do |f|
+    f.write ERB.new( File.read( template_filename )).result
+  end
+end
+
+link '~/.ansible.cfg', 'ansible.cfg'
+link '~/bin',          'bin'         
+link '~/.gemdandyrc',  'gemdandyrc'         
+link '~/.irbrc',       'irbrc'       
+link '~/.pryrc',       'pryrc'      
+link '~/.railsrc',     'railsrc'      
+link '~/.rvmrc',       'rvmrc'      
+link '~/.ssh/config',  'ssh/config'      
+link '~/.tmux.conf',   'tmux.conf'      
+link '~/.vimrc',       'vimrc'      
+link '~/.vimrc.d',     'vimrc.d'      
+link '~/.vim/colors',  'vim-themes'      
+link '~/.vim/snippets','snippets'      
+link '~/.zshrc',       'zshrc-osx'      
+
+generate 'gemrc.erb', 'gemrc-generated'
+link     '~/.gemrc',  'gemrc-generated'         
+
+generate 'gitconfig.erb', 'gitconfig-generated'
+link     '~/.gitconfig',  'gitconfig-generated'         
