@@ -10,10 +10,11 @@ def link( source, destination )
 end
 
 def link_dotfile( source, destination )
-  link "~/.dotfiles/#{destination}", source
+  link source, "~/.dotfiles/#{destination}"
 end
 
 def generate( template_filename, evaluated_filename )
+  #require 'pry'; binding.pry
   File.open "#{root_path}/#{evaluated_filename}", 'w' do |f|
     f.write ERB.new( File.read( "#{root_path}/#{template_filename}" )).result
   end
@@ -36,8 +37,8 @@ link_dotfile '~/.zshrc',       'zshrc-osx'
 
 link '~/development', '/Volumes/Data/development'
 
-generate 'gemrc.erb', 'gemrc-generated'
-link     '~/.gemrc',  'gemrc-generated'         
+generate     'gemrc.erb', 'gemrc-generated'
+link_dotfile '~/.gemrc',  'gemrc-generated'         
 
-generate 'gitconfig.erb', 'gitconfig-generated'
-link     '~/.gitconfig',  'gitconfig-generated'         
+generate     'gitconfig.erb', 'gitconfig-generated'
+link_dotfile '~/.gitconfig',  'gitconfig-generated'         

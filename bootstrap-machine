@@ -20,12 +20,14 @@ brew cask install forklift
 brew cask install dropbox
 brew cask install google-chrome
 brew cask install iterm2
+brew cask install kaleidoscope
 brew cask install navicat-premium
 brew cask install sublime-text
 brew cask install tower
 brew cask install tunnelblick
 brew cask install tower
 brew cask install textexpander
+brew cask install vmware-fusion
 
 ZSH_DIRECTORY=~/.oh-my-zsh
 if [ ! -d "$ZSH_DIRECTORY" ]; then
@@ -48,9 +50,12 @@ if [ ! -d "$NEOBUNDLE_DIRECTORY" ]; then
 fi
 
 # Install RVM
-brew install gpg2 # for RVM
-gpg2 --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
-\curl -sSL https://get.rvm.io | bash -s stable
+rvm --version > /dev/null
+if [ $? != 0 ]; then
+  brew install gpg2 # for RVM
+  gpg2 --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
+  \curl -sSL https://get.rvm.io | bash -s stable
+fi
 
 open ~/.dotfiles/powerline-fonts/Monaco+for+Powerline.otf
 
