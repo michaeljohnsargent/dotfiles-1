@@ -11,7 +11,7 @@ end
 
 def generate( template_filename, evaluated_filename )
   File.open "#{root_path}/#{evaluated_filename}", 'w' do |f|
-    f.write ERB.new( File.read( template_filename )).result
+    f.write ERB.new( File.read( "#{root_path}/#{template_filename}" )).result
   end
 end
 
