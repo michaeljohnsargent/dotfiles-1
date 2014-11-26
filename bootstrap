@@ -6,7 +6,11 @@ def root_path
 end
 
 def link( source, destination )
-  `ln -nfs ~/.dotfiles/#{destination} #{source}`
+  `ln -nfs #{destination} #{source}`
+end
+
+def link_dotfile( source, destination )
+  link "~/.dotfiles/#{destination}", source
 end
 
 def generate( template_filename, evaluated_filename )
@@ -15,20 +19,22 @@ def generate( template_filename, evaluated_filename )
   end
 end
 
-link '~/.ansible.cfg', 'ansible.cfg'
-link '~/bin',          'bin'         
-link '~/.gemdandyrc',  'gemdandyrc'         
-link '~/.irbrc',       'irbrc'       
-link '~/.pryrc',       'pryrc'      
-link '~/.railsrc',     'railsrc'      
-link '~/.rvmrc',       'rvmrc'      
-link '~/.ssh/config',  'ssh/config'      
-link '~/.tmux.conf',   'tmux.conf'      
-link '~/.vimrc',       'vimrc'      
-link '~/.vimrc.d',     'vimrc.d'      
-link '~/.vim/colors',  'vim-themes'      
-link '~/.vim/snippets','snippets'      
-link '~/.zshrc',       'zshrc-osx'      
+link_dotfile '~/.ansible.cfg', 'ansible.cfg'
+link_dotfile '~/bin',          'bin'         
+link_dotfile '~/.gemdandyrc',  'gemdandyrc'         
+link_dotfile '~/.irbrc',       'irbrc'       
+link_dotfile '~/.pryrc',       'pryrc'      
+link_dotfile '~/.railsrc',     'railsrc'      
+link_dotfile '~/.rvmrc',       'rvmrc'      
+link_dotfile '~/.ssh/config',  'ssh/config'      
+link_dotfile '~/.tmux.conf',   'tmux.conf'      
+link_dotfile '~/.vimrc',       'vimrc'      
+link_dotfile '~/.vimrc.d',     'vimrc.d'      
+link_dotfile '~/.vim/colors',  'vim-themes'      
+link_dotfile '~/.vim/snippets','snippets'      
+link_dotfile '~/.zshrc',       'zshrc-osx'      
+
+link '~/development', '/Volumes/Data/development'
 
 generate 'gemrc.erb', 'gemrc-generated'
 link     '~/.gemrc',  'gemrc-generated'         
