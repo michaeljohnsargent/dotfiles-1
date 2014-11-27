@@ -1,10 +1,10 @@
 "### NeoBundle ######################################################
 if has('vim_starting')
   set nocompatible " Be iMproved
-  set runtimepath+=/Users/cjharrelson/.vim/bundle/neobundle.vim/
+  set runtimepath+=$HOME/.vim/bundle/neobundle.vim/
 endif
 
-call neobundle#begin(expand('/Users/cjharrelson/.vim/bundle'))
+call neobundle#begin(expand('$HOME/.vim/bundle'))
 
 NeoBundleFetch 'Shougo/neobundle.vim'
 
