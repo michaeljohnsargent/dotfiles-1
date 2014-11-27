@@ -1,3 +1,8 @@
-export rvm_path="/Users/cjharrelson/.rvm"
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+  export rvm_path="/home/cjharrelson/.rvm"
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+  export rvm_path="/Users/cjharrelson/.rvm"
+fi
+
 export rvm_archflags="-arch x86_64"
 rvm_archflags="-arch x86_64"
