@@ -60,6 +60,11 @@ perform() {
 #  brew info "$1" 2>/dev/null | head -1 | awk '{gsub(/:/, ""); print $1}'
 #}
 
+add_repo() {
+  announce "Adding repo $1"
+  perform "sudo add-apt-repository --yes $1"
+}
+
 install() {
   if is_installed "$1"; then
     say "$1 already installed"
@@ -81,26 +86,43 @@ is_installed() {
 #  [[ $? -ne 0 ]]
 #}
 
+link() {
+  ln -nfs $1 $2
+}
+
+DATA_PATH=/media/cjharrelson/Data 
+#link '/media/cjharrelson/Data/.api-tokens.yml' '~/.api-tokens.yml' 
+ln -nfs $DATA_PATH/.api-tokens.yml ~/.api-tokens.yml 
+ln -nfs $DATA_PATH/.digital-ocean ~/.digital-ocean
+ln -nfs $DATA_PATH/.ey-cloud.yml ~/.ey-cloud.yml
+ln -nfs $DATA_PATH/.eyrc ~/.eyrc
+ln -nfs $DATA_PATH/.irb-history ~/.irb-history
+ln -nfs $DATA_PATH/.eyrc ~/.eyrc
+ln -nfs $DATA_PATH/.pry_history ~/.pry_history
+ln -nfs $DATA_PATH/.s3cfg ~/.s3cfg
+ln -nfs $DATA_PATH/.s3-credentials.yml ~/.s3-credentials.yml
+
 ZSH_DIRECTORY=~/.oh-my-zsh
 if [ ! -d "$ZSH_DIRECTORY" ]; then
   git clone git@github.com:midas/oh-my-zsh.git $ZSH_DIRECTORY
   cd $ZSH_DIRECTORY
   git checkout jason
 else
-  say "oh-my-zsh already installed" $GREEN
+  say "oh-my-zsh already installed"
 fi
 
-#if [[ "$SHELL" != */zsh ]]; then
-#  say "Changing shell to zsh"
-#  chsh -s $(which zsh)
-#fi
+if [[ "$SHELL" != */zsh ]]; then
+  install 'zsh'
+  say "Changing shell to zsh"
+  chsh -s $(which zsh)
+fi
 
 DOTFILES_DIRECTORY=~/.dotfiles
 if [ ! -d "$DOTFILES_DIRECTORY" ]; then
   git clone git@github.com:midas/dotfiles.git ~/.dotfiles
   ~/.dotfiles/bootstrap
 else
-  say "dotfiles already installed" $GREEN
+  say "dotfiles already installed"
 fi
 
 NEOBUNDLE_DIRECTORY=~/.vim/bundle/neobundle.vim
@@ -108,24 +130,59 @@ if [ ! -d "$NEOBUNDLE_DIRECTORY" ]; then
   mkdir -p ~/.vim/bundle
   git clone https://github.com/Shougo/neobundle.vim $NEOBUNDLE_DIRECTORY
 else
-  say "Neobundle already installed" $GREEN
+  say "Neobundle already installed"
 fi
 
+install 'curl'
+
 # Install RVM
-#rvm --version > /dev/null
-#if [ $? != 0 ]; then
-#  say "RVM already installed"
-#  brew install gpg2 # for RVM
-#  gpg2 --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
-#  \curl -sSL https://get.rvm.io | bash -s stable
-#fi
+rvm --version > /dev/null 2>&1
+if [ $? != 0 ]; then
+  install 'gpgv2'
+  gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
+  \curl -sSL https://get.rvm.io | bash -s stable
+else
+  say "RVM already installed"
+fi
 
 #say "Configuring Bundler for faster, parallel gem installation ..."
 #number_of_cores=$(sysctl -n hw.ncpu)
 #bundle config --global jobs $((number_of_cores - 1))
 
+THEMES_DIRECTORY=~/.themes
+if [ ! -d "$THEMES_DIRECTORY" ]; then
+  mkdir $THEMES_DIRECTORY
+fi
+
+YOSEMBIANCE_DIRECTORY=$THEMES_DIRECTORY/Yosembiance
+if [ ! -d "$YOSEMBIANCE_DIRECTORY" ]; then
+  say "Installing theme Yosembiance"
+  cd $THEMES_DIRECTORY
+  wget https://github.com/bsundman/Yosembiance/archive/master.zip
+  unzip master.zip
+  mv $THEMES_DIRECTORY/Yosembiance-master/Yosembiance $THEMES_DIRECTORY/.
+  rm -rf $THEMES_DIRECTORY/Yosembiance-master
+  rm $THEMES_DIRECTORY/master.zip
+  cd ~
+else
+  say "Theme Yosembiance already installed"
+fi
+
+add_repo 'ppa:numix/ppa'
+add_repo 'ppa:noobslab/themes'
+sudo apt-get update
+
+install 'numix-gtk-theme' 
+install 'numix-icon-theme-circle'
+install 'numix-wallpaper-notd'
+install 'ambiance-crunchy'
+
+install 'docker.io'
 install 'git'
+install 'gpgv2'
+install 'autokey-gtk'
 install 'gnome-tweak-tool'
+install 'unity-tweak-tool'
 
 #if [ ! -f ~/Library/Fonts/Monaco+for+Powerline.otf ]; then
 #  open ~/.dotfiles/powerline-fonts/Monaco+for+Powerline.otf
