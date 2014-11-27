@@ -1,0 +1,136 @@
+#!/usr/bin/env bash
+
+BLACK=30
+RED=31
+GREEN=32
+YELLOW=33
+BLUE=34
+MAGENTA=35
+CYAN=36
+LIGHT_GREY=37
+DARK_GREY=90
+LIGHT_RED=91
+LIGHT_GREEN=92
+LIGHT_YELLOW=93
+LIGHT_BLUE=94
+LIGHT_MAGENTA=95
+LIGHT_CYAN=96
+
+# Ask for the administrator password upfront
+sudo -v
+
+say() {
+  if [ ! -z $2 ]; then
+    COLOR=$2
+  else
+    COLOR=0
+  fi
+
+  echo -e "\033["$COLOR"m$1\033[0m"
+}
+
+say_dim() {
+  echo -e "\033[2m$1\033[0m"
+}
+
+announce() {
+  if [ ! -z $2 ]; then
+    COLOR=$2
+  else
+    COLOR=0
+  fi
+
+  echo -en "\033["$COLOR"m$1 ...\033[0m"
+}
+
+perform() {
+  command=$1
+  output=`$command 2>&1`
+  result=$?
+  if [[ $result -eq 0 ]]; then
+    echo -e "\033[32mOK\033[0m"
+  else
+    echo -e "\033[31mERROR\033[0m"
+    echo -e "$output" >&2
+    exit $result
+  fi
+}
+
+#brew_expand_alias() {
+#  brew info "$1" 2>/dev/null | head -1 | awk '{gsub(/:/, ""); print $1}'
+#}
+
+install() {
+  if is_installed "$1"; then
+    say "$1 already installed"
+  else
+    announce "Installing $1"
+    perform "sudo apt-get --yes install $1"
+  fi
+}
+
+is_installed() {
+  dpkg -s $1 > /dev/null 2>&1
+  [ $? -eq 0 ]
+}
+
+#is_upgradable() {
+#  local name="$(brew_expand_alias "$1")"
+#
+#  brew outdated --quiet "$name" >/dev/null
+#  [[ $? -ne 0 ]]
+#}
+
+ZSH_DIRECTORY=~/.oh-my-zsh
+if [ ! -d "$ZSH_DIRECTORY" ]; then
+  git clone git@github.com:midas/oh-my-zsh.git $ZSH_DIRECTORY
+  cd $ZSH_DIRECTORY
+  git checkout jason
+else
+  say "oh-my-zsh already installed" $GREEN
+fi
+
+#if [[ "$SHELL" != */zsh ]]; then
+#  say "Changing shell to zsh"
+#  chsh -s $(which zsh)
+#fi
+
+DOTFILES_DIRECTORY=~/.dotfiles
+if [ ! -d "$DOTFILES_DIRECTORY" ]; then
+  git clone git@github.com:midas/dotfiles.git ~/.dotfiles
+  ~/.dotfiles/bootstrap
+else
+  say "dotfiles already installed" $GREEN
+fi
+
+NEOBUNDLE_DIRECTORY=~/.vim/bundle/neobundle.vim
+if [ ! -d "$NEOBUNDLE_DIRECTORY" ]; then
+  mkdir -p ~/.vim/bundle
+  git clone https://github.com/Shougo/neobundle.vim $NEOBUNDLE_DIRECTORY
+else
+  say "Neobundle already installed" $GREEN
+fi
+
+# Install RVM
+#rvm --version > /dev/null
+#if [ $? != 0 ]; then
+#  say "RVM already installed"
+#  brew install gpg2 # for RVM
+#  gpg2 --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
+#  \curl -sSL https://get.rvm.io | bash -s stable
+#fi
+
+#say "Configuring Bundler for faster, parallel gem installation ..."
+#number_of_cores=$(sysctl -n hw.ncpu)
+#bundle config --global jobs $((number_of_cores - 1))
+
+install 'git'
+install 'gnome-tweak-tool'
+
+#if [ ! -f ~/Library/Fonts/Monaco+for+Powerline.otf ]; then
+#  open ~/.dotfiles/powerline-fonts/Monaco+for+Powerline.otf
+#else
+#  say "Monaco+for+Powerline.otf already installed"
+#fi
+
+echo "Done. Note that some of these changes require a logout/restart to take effect."
