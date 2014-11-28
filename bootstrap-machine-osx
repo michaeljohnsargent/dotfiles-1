@@ -101,6 +101,19 @@ brew_is_upgradable() {
   [[ $? -ne 0 ]]
 }
 
+DATA_VOLUME=/Volume/Data
+ln -nfs $DATA_VOLUME/.api-tokens.yml .api-tokens.yml
+ln -nfs $DATA_VOLUME/.digital-ocean .digital-ocean
+ln -nfs $DATA_VOLUME/.do-not-delete-gvtus .do-not-delete-gvtus
+ln -nfs $DATA_VOLUME/.do-not-delete-gvtus-2 .do-not-delete-gvtus-2
+ln -nfs $DATA_VOLUME/.ey-cloud.yml .ey-cloud.yml
+ln -nfs $DATA_VOLUME/.eyrc .eyrc
+ln -nfs $DATA_VOLUME/.irb-history .irb-history
+ln -nfs $DATA_VOLUME/.pry_history .pry_history
+ln -nfs $DATA_VOLUME/.s3-credentials.yml .s3-credentials.yml
+ln -nfs $DATA_VOLUME/.s3cfg .s3cfg
+ln -nfs $DATA_VOLUME/.zsh_history .zsh_history
+
 install_brew 'ctags'
 install_brew 'dnsmasq'
 install_brew 'git'
@@ -119,6 +132,7 @@ install_cask 'google-chrome'
 install_cask 'iterm2'
 install_cask 'kaleidoscope'
 install_cask 'navicat-premium'
+install_cask 'onepassword'
 install_cask 'sublime-text'
 install_cask 'tower'
 install_cask 'tunnelblick'
