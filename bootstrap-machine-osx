@@ -101,13 +101,15 @@ brew_is_upgradable() {
   [[ $? -ne 0 ]]
 }
 
-DATA_VOLUME=/Volume/Data
+DATA_VOLUME=/Volumes/Data
 ln -nfs $DATA_VOLUME/.api-tokens.yml .api-tokens.yml
 ln -nfs $DATA_VOLUME/.digital-ocean .digital-ocean
 ln -nfs $DATA_VOLUME/.do-not-delete-gvtus .do-not-delete-gvtus
 ln -nfs $DATA_VOLUME/.do-not-delete-gvtus-2 .do-not-delete-gvtus-2
 ln -nfs $DATA_VOLUME/.ey-cloud.yml .ey-cloud.yml
 ln -nfs $DATA_VOLUME/.eyrc .eyrc
+ln -nfs $DATA_VOLUME/.guardrc .guardrc
+ln -nfs $DATA_VOLUME/.guard_history .guard_history
 ln -nfs $DATA_VOLUME/.irb-history .irb-history
 ln -nfs $DATA_VOLUME/.pry_history .pry_history
 ln -nfs $DATA_VOLUME/.s3-credentials.yml .s3-credentials.yml
@@ -145,6 +147,8 @@ if [ ! -d "$ZSH_DIRECTORY" ]; then
   git clone git@github.com:midas/oh-my-zsh.git $ZSH_DIRECTORY
   cd $ZSH_DIRECTORY
   git checkout jason
+else
+  say "oh-my-zsh already installed"
 fi
 
 if [[ "$SHELL" != */zsh ]]; then
@@ -154,25 +158,28 @@ fi
 
 DOTFILES_DIRECTORY=~/.dotfiles
 if [ ! -d "$DOTFILES_DIRECTORY" ]; then
+  git clone git@github.com:midas/dotfiles.git $DOTFILES_DIRECTORY
+  $DOTFILES_DIRECTORY/bootstrap
+else
   say "dotfiles already installed"
-  git clone git@github.com:midas/dotfiles.git ~/.dotfiles
-  ~/.dotfiles/bootstrap
 fi
 
 NEOBUNDLE_DIRECTORY=~/.vim/bundle/neobundle.vim
 if [ ! -d "$NEOBUNDLE_DIRECTORY" ]; then
-  say "Neobundle already installed"
   mkdir -p ~/.vim/bundle
   git clone https://github.com/Shougo/neobundle.vim $NEOBUNDLE_DIRECTORY
+else
+  say "Neobundle already installed"
 fi
 
 # Install RVM
 rvm --version > /dev/null
 if [ $? != 0 ]; then
-  say "RVM already installed"
-  brew install gpg2 # for RVM
+  install_brew 'gpg2'
   gpg2 --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
   \curl -sSL https://get.rvm.io | bash -s stable
+else
+  say "RVM already installed"
 fi
 
 say "Configuring Bundler for faster, parallel gem installation ..."
@@ -180,10 +187,17 @@ number_of_cores=$(sysctl -n hw.ncpu)
 bundle config --global jobs $((number_of_cores - 1))
 
 if [ ! -f ~/Library/Fonts/Monaco+for+Powerline.otf ]; then
-  open ~/.dotfiles/powerline-fonts/Monaco+for+Powerline.otf
+  open $DOTFILES_DIRECTORY/powerline-fonts/Monaco+for+Powerline.otf
 else
   say "Monaco+for+Powerline.otf already installed"
 fi
+
+USR_LOCAL_ETC_DIR=/usr/local/etc
+DOTFILES_USR_LOCAL_ETC_DIR=$DOTFILES_DIRECTORY/usr/local/etc
+cd $USR_LOCAL_ETC_DIR
+ln -nfs $DOTFILES_USR_LOCAL_ETC_DIR/dnsmasq.conf dnsmasq.conf
+ln -nfs $DOTFILES_USR_LOCAL_ETC_DIR/dnsmasq-resolv.conf dnsmasq-resolv.conf
+cd ~
 
 # Set sidebar icon size to medium
 defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 2
