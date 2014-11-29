@@ -60,7 +60,9 @@ unsetopt auto_name_dirs
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
-__rvm_project_rvmrc
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  __rvm_project_rvmrc
+fi
 
 export DEFER_GC="0.0"
 setopt HIST_IGNORE_SPACE
