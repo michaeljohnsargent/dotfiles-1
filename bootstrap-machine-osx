@@ -126,6 +126,7 @@ install_brew 'wget'
 
 install_brew 'caskroom/cask/brew-cask'
 
+install_cask 'adium'
 install_cask 'alfred'
 install_cask 'dropbox'
 install_cask 'evernote'
