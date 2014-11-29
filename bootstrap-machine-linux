@@ -168,6 +168,12 @@ else
   say "Theme Yosembiance already installed"
 fi
 
+SOURCES_DIR=/etc/apt/sources.list.d
+if [ ! -f "$SOURCES_DIR/google.list" ]; then
+  say "Adding Google Chrome repo to sources"
+  sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> $SOURCES_DIR/google.list'
+fi
+
 add_repo 'ppa:numix/ppa'
 add_repo 'ppa:noobslab/themes'
 sudo apt-get update
@@ -177,11 +183,17 @@ install 'numix-icon-theme-circle'
 install 'numix-wallpaper-notd'
 install 'ambiance-crunchy'
 
-install 'docker.io'
-install 'git'
-install 'gpgv2'
 install 'autokey-gtk'
+install 'docker.io'
+install 'everpad'
+install 'git'
+install 'google-chrome-stable'
+install 'gpgv2'
 install 'gnome-tweak-tool'
+install 'python-dev'
+install 'python-pip'
+install 'terminator'
+install 'tmux'
 install 'unity-tweak-tool'
 
 #if [ ! -f ~/Library/Fonts/Monaco+for+Powerline.otf ]; then
