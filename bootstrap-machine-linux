@@ -186,6 +186,7 @@ if [ ! -f "$SOURCES_DIR/google.list" ]; then
   sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> $SOURCES_DIR/google.list'
 fi
 
+add_repo 'ppa:eugenesan/ppa'
 add_repo 'ppa:noobslab/themes'
 add_repo 'ppa:numix/ppa'
 add_repo 'ppa:nvbn-rm/ppa'
@@ -205,6 +206,7 @@ install 'gpgv2'
 install 'gnome-tweak-tool'
 install 'python-dev'
 install 'python-pip'
+install 'smartgit'
 install 'terminator'
 install 'tmux'
 install 'unity-tweak-tool'
