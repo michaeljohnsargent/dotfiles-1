@@ -45,7 +45,11 @@ LUA_CPATH="./?.so;$LUA_DIST_HOME/lib/lua/?.so;$LUA_DIST_HOME/lib/lua/?/?.so;$LUA
 export  LUA_PATH
 export  LUAC_PATH
 export JAVA_HOME=$(/usr/libexec/java_home)
-export PATH=/Users/`whoami`/bin:/usr/local/bin:/usr/local:/opt/local/bin:/opt/local/sbin:/usr/local:/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/opt/local/bin:/usr/local/sbin:/Users/cjharrelson/.git-scripts:${JAVA_HOME}/bin:$PATH;
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+  export PATH=/home/`whoami`/bin:/usr/local/bin:/usr/local:/opt/local/bin:/opt/local/sbin:/usr/local:/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/opt/local/bin:/usr/local/sbin:/home/cjharrelson/.git-scripts:${JAVA_HOME}/bin:$PATH;
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+  export PATH=/Users/`whoami`/bin:/usr/local/bin:/usr/local:/opt/local/bin:/opt/local/sbin:/usr/local:/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/opt/local/bin:/usr/local/sbin:/Users/cjharrelson/.git-scripts:${JAVA_HOME}/bin:$PATH;
+fi
 
 # Fix for rvm issues with .zsh
 unsetopt auto_name_dirs
