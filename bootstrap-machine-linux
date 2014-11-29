@@ -168,6 +168,18 @@ else
   say "Theme Yosembiance already installed"
 fi
 
+FONTS_DIRECTORY=/usr/share/fonts/truetype/custom
+if [ ! -d "$FONTS_DIRECTORY" ]; then
+  sudo mkdir -p $FONTS_DIRECTORY
+fi 
+
+if [ ! -f "$FONTS_DIRECTORY/Monaco_Linux.ttf" ]; then
+  wget -c https://github.com/cstrap/monaco-font/raw/master/Monaco_Linux.ttf
+  sudo mv Monaco_Linux.ttf /usr/share/fonts/truetype/custom/.
+fi
+
+sudo fc-cache -f -v
+
 SOURCES_DIR=/etc/apt/sources.list.d
 if [ ! -f "$SOURCES_DIR/google.list" ]; then
   say "Adding Google Chrome repo to sources"
