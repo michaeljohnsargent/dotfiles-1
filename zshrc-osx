@@ -44,10 +44,12 @@ LUA_CPATH="./?.so;$LUA_DIST_HOME/lib/lua/?.so;$LUA_DIST_HOME/lib/lua/?/?.so;$LUA
 #LUA_PATH=./?.lua;
 export  LUA_PATH
 export  LUAC_PATH
-export JAVA_HOME=$(/usr/libexec/java_home)
+
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
+  export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")
   export PATH=/home/`whoami`/bin:/usr/local/bin:/usr/local:/opt/local/bin:/opt/local/sbin:/usr/local:/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/opt/local/bin:/usr/local/sbin:/home/cjharrelson/.git-scripts:${JAVA_HOME}/bin:$PATH;
 elif [[ "$OSTYPE" == "darwin"* ]]; then
+  export JAVA_HOME=$(/usr/libexec/java_home)
   export PATH=/Users/`whoami`/bin:/usr/local/bin:/usr/local:/opt/local/bin:/opt/local/sbin:/usr/local:/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/opt/local/bin:/usr/local/sbin:/Users/cjharrelson/.git-scripts:${JAVA_HOME}/bin:$PATH;
 fi
 
