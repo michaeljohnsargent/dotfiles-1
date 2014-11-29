@@ -209,10 +209,4 @@ install 'terminator'
 install 'tmux'
 install 'unity-tweak-tool'
 
-#if [ ! -f ~/Library/Fonts/Monaco+for+Powerline.otf ]; then
-#  open ~/.dotfiles/powerline-fonts/Monaco+for+Powerline.otf
-#else
-#  say "Monaco+for+Powerline.otf already installed"
-#fi
-
 echo "Done. Note that some of these changes require a logout/restart to take effect."
