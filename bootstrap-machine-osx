@@ -116,6 +116,8 @@ ln -nfs $DATA_VOLUME/.s3-credentials.yml .s3-credentials.yml
 ln -nfs $DATA_VOLUME/.s3cfg .s3cfg
 ln -nfs $DATA_VOLUME/.zsh_history .zsh_history
 
+ln -nfs $DOTFILES_DIRECTORY/etc.hosts /etc/hosts
+
 install_brew 'ctags'
 install_brew 'dnsmasq'
 install_brew 'git'
@@ -143,6 +145,12 @@ install_cask 'tunnelblick'
 install_cask 'tower'
 install_cask 'textexpander'
 install_cask 'vmware-fusion'
+
+# dnsmasq
+say "Setting up dnsmasq launchctl"
+sudo cp -fv /usr/local/opt/dnsmasq/*.plist /Library/LaunchDaemons
+sudo chown root /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
+sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
 
 ZSH_DIRECTORY=~/.oh-my-zsh
 if [ ! -d "$ZSH_DIRECTORY" ]; then

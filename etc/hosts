@@ -1,0 +1,90 @@
+##
+# Host Database
+#
+# localhost is used to configure the loopback interface
+# when the system is booting.  Do not change this entry.
+##
+127.0.0.1	localhost
+255.255.255.255	broadcasthost
+::1             localhost 
+fe80::1%lo0	localhost
+
+127.0.0.1 test.localhost.dev
+
+# Iberon
+10.0.2.116 gvtus.ibd.iberon.com
+10.0.3.116 gvtus.ibp.iberon.com
+10.0.3.112 ncite-staging.ibp.iberon.com
+10.0.3.106 ncite.ibp.iberon.com
+
+10.0.5.102 ncite.staging.iberon.com
+10.0.5.104 gvtus.staging.iberon.com
+
+10.0.5.63 wiki.staging.iberon.com
+
+#127.0.0.1 pkidm.dmdc.osd.mil
+#214.3.119.53 pkidm.dmdc.osd.mil
+127.0.0.1 nmd.ncite.com
+
+127.0.0.1 admin.gvt.dev
+127.0.0.1 client.gvt.dev
+127.0.0.1 www.gvt.dev
+
+# ArchivaLock
+## Infrastructure
+### Git-Lab (Digital Ocean)
+107.170.101.58 gitlab.archivalock.com
+### Elastic Search (Digital Ocean)
+107.170.74.189 elastic-search.archivalock.staging
+
+### Engine Yard Staging
+54.225.110.146 archivalock-staging.com
+54.225.110.146 www.archivalock-staging.com
+54.225.110.146 angelinatx-cc.archivalock-staging.com
+54.225.110.146 public.angelinatx-cc.archivalock-staging.com
+54.225.110.146 connect.angelinatx-cc.archivalock-staging.com
+54.225.110.146 nacogdochestx-cc.archivalock-staging.com
+54.225.110.146 public.nacogdochestx-cc.archivalock-staging.com
+54.225.110.146 connect.nacogdochestx-cc.archivalock-staging.com
+
+## Dev
+127.0.0.1 angelinatx-cc.localhost
+127.0.0.1 angelinatx-dc.localhost
+127.0.0.1 dentontx-cc.localhost
+127.0.0.1 nacogdochestx-cc.localhost
+
+127.0.0.1 www.archivalock.dev
+127.0.0.1 archivalock.dev
+127.0.0.1 api.archivalock.dev
+
+127.0.0.1 angelinatx-cc.archivalock.dev
+127.0.0.1 public.angelinatx-cc.archivalock.dev
+
+127.0.0.1 angelinatx-dc.archivalock.dev
+127.0.0.1 public.angelinatx-dc.archivalock.dev
+
+127.0.0.1 dentontx-cc.archivalock.dev
+127.0.0.1 public.dentontx-cc.archivalock.dev
+
+127.0.0.1 greggtx-dc.archivalock.dev
+127.0.0.1 public.greggtx-dc.archivalock.dev
+
+127.0.0.1 montgomerytx-dc.archivalock.dev
+127.0.0.1 public.montgomerytx-dc.archivalock.dev
+127.0.0.1 connect.montgomerytx-dc.archivalock.dev
+
+127.0.0.1 nacogdochestx-cc.archivalock.dev
+127.0.0.1 public.nacogdochestx-cc.archivalock.dev
+127.0.0.1 connect.nacogdochestx-cc.archivalock.dev
+
+127.0.0.1 polktx-cc.archivalock.dev
+127.0.0.1 public.polktx-cc.archivalock.dev
+127.0.0.1 connect.polktx-cc.archivalock.dev
+
+# SPP
+#174.120.112.226 www.steelpointepartners.com
+## Infrastructure
+## Message Queue 1 (Digital Ocean)
+162.243.242.53 mq1.sunset.staging
+107.170.41.218 gitlab.steelpointepartners.com
+162.243.217.147 util-ubuntu.sunset.staging
