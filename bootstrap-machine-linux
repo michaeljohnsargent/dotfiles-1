@@ -174,8 +174,9 @@ if [ ! -f "$SOURCES_DIR/google.list" ]; then
   sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> $SOURCES_DIR/google.list'
 fi
 
-add_repo 'ppa:numix/ppa'
 add_repo 'ppa:noobslab/themes'
+add_repo 'ppa:numix/ppa'
+add_repo 'ppa:nvbn-rm/ppa'
 sudo apt-get update
 
 install 'numix-gtk-theme' 
