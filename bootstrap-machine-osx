@@ -118,18 +118,29 @@ ln -nfs $DATA_VOLUME/.zsh_history .zsh_history
 
 ln -nfs $DOTFILES_DIRECTORY/etc.hosts /etc/hosts
 
+install_brew 'ack'
 install_brew 'ctags'
 install_brew 'dnsmasq'
+install_brew 'freetds'
 install_brew 'git'
 install_brew 'git-crypt'
+install_brew 'graphicsmagick'
+install_brew 'httpie'
+install_brew 'imagemagick'
+install_brew 'libsodium'
+install_brew 'mysql'
+install_brew 'rabbitmq'
 install_brew 'tmux'
 install_brew 'vim'
+install_brew 'watch'
 install_brew 'wget'
+install_brew 'zeromq'
 
 install_brew 'caskroom/cask/brew-cask'
 
 install_cask 'adium'
 install_cask 'alfred'
+install_cask 'copy'
 install_cask 'dropbox'
 install_cask 'evernote'
 install_cask 'forklift'
