@@ -77,3 +77,7 @@ class Hash
 end
 
 Pry.config.commands.import( custom_command_set )
+
+if Dir.pwd.split( '/' ).last == 'ncite_pass_control_server'
+  Time.zone = configatron.installation.time_zone
+end
