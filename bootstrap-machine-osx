@@ -156,6 +156,7 @@ install_cask 'tower'
 install_cask 'tunnelblick'
 install_cask 'tower'
 install_cask 'textexpander'
+install_cask 'vagrant'
 install_cask 'vmware-fusion'
 
 # dnsmasq
