@@ -11,6 +11,7 @@ fe80::1%lo0	localhost
 
 127.0.0.1 test.localhost.dev
 
+192.168.0.110 coreos.dev
 # Iberon
 10.0.2.116 gvtus.ibd.iberon.com
 10.0.3.116 gvtus.ibp.iberon.com
