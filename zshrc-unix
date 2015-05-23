@@ -14,9 +14,24 @@ export DISABLE_AUTO_UPDATE="true"
 # Uncomment following line if you want to disable colors in ls
 # export DISABLE_LS_COLORS="true"
 
-plugins=(gem git github rails ruby)
+#plugins=(gem git github rails ruby)
+plugins=(vi-mode cap gem git github osx rails ruby vagrant history-substring-search)
 
 source $ZSH/oh-my-zsh.sh
+
+#bindkey '\eOA' history-substring-search-up
+#bindkey '\eOB' history-substring-search-down
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+export KEYTIMEOUT=1
+#VI_MODE_EDIT_CHAR="✖"
+#VI_MODE_TYPE_CHAR="✚"
+#VI_MODE_EDIT_CHAR="✁"
+VI_MODE_EDIT_CHAR="✄"
+VI_MODE_TYPE_CHAR="✎"
+export VI_MODE_EDIT_INDICATOR="%{$fg_bold[red]%}$VI_MODE_EDIT_CHAR%{$reset_color%}"
+export VI_MODE_TYPE_INDICATOR="%{$fg_bold[green]%}$VI_MODE_TYPE_CHAR%{$reset_color%}"
+#####
 
 export BUNDLER_EDITOR=vim
 export EDITOR=vim
@@ -30,3 +45,14 @@ unsetopt auto_name_dirs
 if [ -f ~/.zshrc-server.d ]; then
   for FILE in ~/.zshrc-server.d ; do source $FILE ; done
 fi
+
+export DEFER_GC="0.0"
+setopt HIST_IGNORE_SPACE
+
+# Make ruby faster but use more memory
+#export RUBY_HEAP_MIN_SLOTS=1000000 # ruby 1.x
+export RUBY_GC_HEAP_INIT_SLOTS=1000000 # ruby 2.x
+export RUBY_HEAP_SLOTS_INCREMENT=1000000
+export RUBY_HEAP_SLOTS_GROWTH_FACTOR=2
+export RUBY_GC_MALLOC_LIMIT=1000000000
+export RUBY_HEAP_FREE_MIN=500000
