@@ -81,3 +81,21 @@ Pry.config.commands.import( custom_command_set )
 if Dir.pwd.split( '/' ).last == 'ncite_pass_control_server'
   Time.zone = configatron.installation.time_zone
 end
+
+#if defined? ActiveRecord
+  #ActiveRecord::Base.logger = nil
+#end
+
+if defined? NcitePassControl
+  def pass_control_counts
+    (ActiveRecord::Base.connection.tables - %w(schema_seeds schema_migrations ncite_fake_vetting_responses)).each { |t| puts "#{t}: #{t.classify.constantize.count}" } ; nil
+  end
+
+  def pass_control_counts_as_array
+    (ActiveRecord::Base.connection.tables - %w(schema_seeds schema_migrations ncite_fake_vetting_responses)).sort.map { |t| t.classify.constantize.count }
+  end
+
+  def pass_control_truncate
+    (ActiveRecord::Base.connection.tables - %w(schema_seeds schema_migrations ncite_fake_vetting_responses)).each { |t| ActiveRecord::Base.connection.execute( "TRUNCATE TABLE #{t}" ) }
+  end
+end
