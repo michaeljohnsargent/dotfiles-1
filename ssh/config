@@ -232,7 +232,7 @@
 # tmux
  Host nils
   Hostname     10.0.12.109
-  User         cjharrelson
+  User         tmux
 
  Host jeff-personal
   Hostname     10.0.12.106
