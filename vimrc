@@ -74,6 +74,8 @@ NeoBundleCheck
 "execute 'NeoBundleLocal' '~/code/vim'
 "### NeoBundle ######################################################
 
+let os = substitute(system('uname'), "\n", "", "")
+
 " Source all .vim files in ~/.vimrc.d
 for fpath in split(globpath('~/.vimrc.d/', '*.vim'), '\n')
   exe 'source' fpath
