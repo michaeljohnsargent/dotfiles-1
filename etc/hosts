@@ -85,6 +85,11 @@ fe80::1%lo0	localhost
 #174.120.112.226 www.steelpointepartners.com
 ## Infrastructure
 ## Message Queue 1 (Digital Ocean)
-162.243.242.53 mq1.sunset.staging
-107.170.41.218 gitlab.steelpointepartners.com
+162.243.242.53  mq1.sunset.staging
+107.170.41.218  gitlab.steelpointepartners.com
 162.243.217.147 util-ubuntu.sunset.staging
+104.131.186.224 coreos-1.steelpointepartners.com
+104.236.43.8    coreos-2.steelpointepartners.com
+104.236.6.51    coreos-3.steelpointepartners.com
+104.236.122.221 coreos-4.steelpointepartners.com
+104.131.119.191 coreos-5.steelpointepartners.com
