@@ -1,0 +1,42 @@
+# ~/.tmuxinator/ncite_pass_control_server.yml
+
+name: ncite_pass_control_server
+root: ~/sources/iberon/ncite_pass_control_server
+
+# Optional tmux socket
+socket_name: /var/tmux/ncite_pass_control_server
+
+# Runs before everything. Use it to start daemons etc.
+pre: mysql.server start
+
+# Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
+# pre_window: rbenv shell 2.0.0-p247
+
+# Pass command line options to tmux. Useful for specifying a different tmux.conf.
+# tmux_options: -f ~/.tmux.mac.conf
+
+# Change the command to call tmux.  This can be used by derivatives/wrappers like byobu.
+# tmux_command: byobu
+
+# Specifies (by name or index) which window will be selected on project startup. If not set, the first window is used.
+startup_window: editor
+
+windows:
+  - editor:
+      layout: 6a6e,364x82,0,0{92x82,0,0[92x41,0,0,0,92x40,0,42,2],271x82,93,0,1}
+      panes:
+        -
+        -
+        - vim
+  - server/REPL:
+      layout: even-horizontal
+      panes:
+        - bundle exec rails server -e development_fast
+        - bundle exec rails console
+  - services/daemons:
+      layout: tiled
+      panes:
+        -
+        -
+        -
+        -
