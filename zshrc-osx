@@ -40,6 +40,7 @@ export PERL5LIB=$PERL5LIB:/usr/local/Cellar/git/1.8.1.5/lib;
 export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
+#LUA
 export LUA_HOME=/usr/local/Cellar/lua/5.1.5
 export LUA_DIST_HOME=$LUA_HOME/LuaDist
 LUA_PATH="./?.lua;$LUA_DIST_HOME/lib/lua/?.lua;$LUA_DIST_HOME/lib/lua/?/?.lua;$LUA_DIST_HOME/share/lua/?.lua;$LUA_DIST_HOME/share/lua/?/?.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?/init.lua;/usr/local/lib/lua/5.1/?.lua;/usr/local/lib/lua/5.1/?/init.lua"
