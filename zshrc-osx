@@ -15,7 +15,7 @@ export DISABLE_AUTO_UPDATE="true"
 # Uncomment following line if you want to disable colors in ls
 # export DISABLE_LS_COLORS="true"
 
-plugins=(vi-mode cap gem git github osx rails ruby vagrant history-substring-search)
+plugins=(vi-mode cap gem git github osx rails ruby tmux tmuxinator vagrant history-substring-search)
 
 source $ZSH/oh-my-zsh.sh
 
