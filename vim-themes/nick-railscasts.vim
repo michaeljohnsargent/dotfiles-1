@@ -57,7 +57,7 @@ highlight Identifier                guifg=#6D9CBE ctermfg=73 gui=NONE cterm=NONE
 highlight Include                   guifg=#CC7833 ctermfg=166 gui=NONE cterm=NONE
 highlight PreCondit                 guifg=#CC7833 ctermfg=173 gui=NONE cterm=NONE
 highlight Keyword                   guifg=#CC7833 ctermfg=166 cterm=NONE
-highlight LineNr                    guifg=#2B2B2B ctermfg=238 guibg=#C0C0FF ctermbg=232
+highlight LineNr                    guifg=#2B2B2B ctermfg=238 guibg=#121212 ctermbg=233
 highlight Number                    guifg=#A5C261 ctermfg=149
 highlight PreProc                   guifg=#E6E1DC ctermfg=103
 highlight Search                    guifg=NONE ctermfg=NONE guibg=#2b2b2b ctermbg=59 gui=italic
