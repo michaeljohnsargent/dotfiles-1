@@ -57,7 +57,7 @@ NeoBundle 'Shougo/unite.vim.git'
 NeoBundle 'Shougo/unite-session.git'
 NeoBundle 'gudleik/vim-slim.git'
 "NeoBundle 'vim-scripts/YankRing.vim,git'
-NeoBundle 'Shougo/vimproc.vim', { 'build' : { 'mac' : 'make -f make_mac.mak', 'linux' : 'make' } }
+"NeoBundle 'Shougo/vimproc.vim', { 'build' : { 'mac' : 'make -f make_mac.mak', 'linux' : 'make' } }
 "NeoBundle 'sjl/vitality.vim'
 NeoBundle 'vim-scripts/ZoomWin.git'
 
