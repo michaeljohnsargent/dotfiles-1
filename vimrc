@@ -9,7 +9,8 @@ call neobundle#begin(expand('$HOME/.vim/bundle'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 NeoBundle 'tpope/vim-abolish.git'
-NeoBundle 'ack.vim'
+"NeoBundle 'ack.vim'
+NeoBundle 'mileszs/ack.vim'
 NeoBundle 'bling/vim-airline'
 "NeoBundle 'jeetsukumaran/vim-buffergator.git'
 NeoBundle 'ton/vim-bufsurf.git'
